@@ -27,7 +27,7 @@ export function Footer() {
 
           <div className="flex gap-16">
             <div className="space-y-3">
-              <p className="eyebrow">{t("explore")}</p>
+              <p className="eyebrow text-gold">{t("explore")}</p>
               <ul className="space-y-2 text-sm text-moon/70">
                 <li>
                   <Link href="/" className="transition-colors hover:text-gold-bright">
@@ -42,7 +42,7 @@ export function Footer() {
               </ul>
             </div>
             <div className="space-y-3">
-              <p className="eyebrow">{t("contact")}</p>
+              <p className="eyebrow text-gold">{t("contact")}</p>
               <ul className="space-y-2 text-sm text-moon/70">
                 <li dir="ltr">Amman, Jordan</li>
                 <li>

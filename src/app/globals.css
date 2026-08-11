@@ -13,16 +13,18 @@
   --font-display: var(--font-display);
 
   /* Lune brand */
-  --color-night: #101321;
-  --color-night-soft: #1a1e2e;
-  --color-night-mist: #262b40;
-  --color-moon: #f3eddf;
-  --color-gold: #c9a96a;
-  --color-gold-bright: #e3c98d;
-  --color-ivory: #f5f1e8;
-  --color-ivory-deep: #ece5d6;
-  --color-wine: #7e2d3c;
-  --color-navy-lune: #2e3a5c;
+  --color-night: #0b0e17;
+  --color-night-soft: #131727;
+  --color-night-mist: #1d2236;
+  --color-moon: #f4eedf;
+  --color-gold: #c4a15e;
+  --color-gold-bright: #ebd9a8;
+  /* Gold legible on ivory backgrounds (gold itself only passes AA on night) */
+  --color-gold-deep: #7c6132;
+  --color-ivory: #f6f2e9;
+  --color-ivory-deep: #ece5d4;
+  --color-wine: #6e2735;
+  --color-navy-lune: #27334f;
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -63,72 +65,72 @@
 }
 
 :root {
-  --background: #f5f1e8;
-  --foreground: #101321;
+  --background: #f6f2e9;
+  --foreground: #0b0e17;
   --card: #fbf8f1;
-  --card-foreground: #101321;
+  --card-foreground: #0b0e17;
   --popover: #fbf8f1;
-  --popover-foreground: #101321;
-  --primary: #101321;
-  --primary-foreground: #f3eddf;
-  --secondary: #ece5d6;
-  --secondary-foreground: #101321;
-  --muted: #ece5d6;
+  --popover-foreground: #0b0e17;
+  --primary: #0b0e17;
+  --primary-foreground: #f4eedf;
+  --secondary: #ece5d4;
+  --secondary-foreground: #0b0e17;
+  --muted: #ece5d4;
   --muted-foreground: #6b6553;
-  --accent: #c9a96a;
-  --accent-foreground: #101321;
+  --accent: #c4a15e;
+  --accent-foreground: #0b0e17;
   --destructive: #9d2f2f;
-  --border: #1013211f;
-  --input: #10132126;
-  --ring: #c9a96a;
-  --chart-1: #c9a96a;
-  --chart-2: #2e3a5c;
-  --chart-3: #7e2d3c;
+  --border: #0b0e171f;
+  --input: #0b0e1726;
+  --ring: #c4a15e;
+  --chart-1: #c4a15e;
+  --chart-2: #27334f;
+  --chart-3: #6e2735;
   --chart-4: #6b6553;
-  --chart-5: #1a1e2e;
+  --chart-5: #131727;
   --radius: 0.25rem;
   --sidebar: #fbf8f1;
-  --sidebar-foreground: #101321;
-  --sidebar-primary: #101321;
-  --sidebar-primary-foreground: #f3eddf;
-  --sidebar-accent: #ece5d6;
-  --sidebar-accent-foreground: #101321;
-  --sidebar-border: #1013211f;
-  --sidebar-ring: #c9a96a;
+  --sidebar-foreground: #0b0e17;
+  --sidebar-primary: #0b0e17;
+  --sidebar-primary-foreground: #f4eedf;
+  --sidebar-accent: #ece5d4;
+  --sidebar-accent-foreground: #0b0e17;
+  --sidebar-border: #0b0e171f;
+  --sidebar-ring: #c4a15e;
 }
 
 .dark {
-  --background: #101321;
-  --foreground: #f3eddf;
-  --card: #1a1e2e;
-  --card-foreground: #f3eddf;
-  --popover: #1a1e2e;
-  --popover-foreground: #f3eddf;
-  --primary: #c9a96a;
-  --primary-foreground: #101321;
-  --secondary: #262b40;
-  --secondary-foreground: #f3eddf;
-  --muted: #262b40;
+  --background: #0b0e17;
+  --foreground: #f4eedf;
+  --card: #131727;
+  --card-foreground: #f4eedf;
+  --popover: #131727;
+  --popover-foreground: #f4eedf;
+  --primary: #c4a15e;
+  --primary-foreground: #0b0e17;
+  --secondary: #1d2236;
+  --secondary-foreground: #f4eedf;
+  --muted: #1d2236;
   --muted-foreground: #a89f8a;
-  --accent: #c9a96a;
-  --accent-foreground: #101321;
+  --accent: #c4a15e;
+  --accent-foreground: #0b0e17;
   --destructive: #d05353;
-  --border: #f3eddf1a;
-  --input: #f3eddf24;
-  --ring: #c9a96a;
-  --chart-1: #c9a96a;
+  --border: #f4eedf1a;
+  --input: #f4eedf24;
+  --ring: #c4a15e;
+  --chart-1: #c4a15e;
   --chart-2: #8fa3d1;
   --chart-3: #d0808f;
   --chart-4: #a89f8a;
-  --chart-5: #f3eddf;
-  --sidebar: #1a1e2e;
-  --sidebar-foreground: #f3eddf;
-  --sidebar-primary: #c9a96a;
-  --sidebar-primary-foreground: #101321;
-  --sidebar-accent: #262b40;
-  --sidebar-accent-foreground: #f3eddf;
-  --sidebar-border: #f3eddf1a;
-  --sidebar-ring: #c9a96a;
+  --chart-5: #f4eedf;
+  --sidebar: #131727;
+  --sidebar-foreground: #f4eedf;
+  --sidebar-primary: #c4a15e;
+  --sidebar-primary-foreground: #0b0e17;
+  --sidebar-accent: #1d2236;
+  --sidebar-accent-foreground: #f4eedf;
+  --sidebar-border: #f4eedf1a;
+  --sidebar-ring: #c4a15e;
 }
 
 @layer base {
@@ -142,8 +144,8 @@
     @apply font-sans scroll-smooth;
   }
   ::selection {
-    background: #c9a96a;
-    color: #101321;
+    background: #c4a15e;
+    color: #0b0e17;
   }
   /* Tailwind v4 preflight leaves buttons with cursor:default */
   button:not(:disabled),
@@ -161,9 +163,10 @@
 }
 
 @layer utilities {
-  /* Small-caps gold eyebrow used above section titles */
+  /* Small-caps eyebrow used above section titles.
+     Color is set at the call site: text-gold on night, text-gold-deep on ivory. */
   .eyebrow {
-    @apply font-sans text-[0.7rem] font-medium uppercase tracking-[0.35em] text-gold;
+    @apply font-sans text-[0.7rem] font-medium uppercase tracking-[0.35em];
   }
   /* Lune aurora: large blurred color curtains drifting over the night base.
      Transform-only animation (cheap on mobile); screen blend for luminosity. */
@@ -184,20 +187,20 @@
     animation: aurora-drift-2 17s ease-in-out infinite alternate;
   }
   .aurora-3 {
-    background: radial-gradient(circle at 50% 50%, rgba(201, 169, 106, 0.42), transparent 62%);
+    background: radial-gradient(circle at 50% 50%, rgba(196, 161, 94, 0.42), transparent 62%);
     animation: aurora-drift-3 11s ease-in-out infinite alternate;
   }
   /* Faint star field: layered tiny dots via repeating radial gradients */
   .starfield {
     background-image:
-      radial-gradient(1px 1px at 12% 22%, rgba(243, 237, 223, 0.8), transparent 100%),
-      radial-gradient(1px 1px at 34% 68%, rgba(243, 237, 223, 0.5), transparent 100%),
-      radial-gradient(1.5px 1.5px at 56% 14%, rgba(227, 201, 141, 0.7), transparent 100%),
-      radial-gradient(1px 1px at 71% 44%, rgba(243, 237, 223, 0.6), transparent 100%),
-      radial-gradient(1px 1px at 85% 75%, rgba(243, 237, 223, 0.45), transparent 100%),
-      radial-gradient(1.5px 1.5px at 93% 28%, rgba(227, 201, 141, 0.55), transparent 100%),
-      radial-gradient(1px 1px at 22% 88%, rgba(243, 237, 223, 0.4), transparent 100%),
-      radial-gradient(1px 1px at 48% 92%, rgba(243, 237, 223, 0.55), transparent 100%);
+      radial-gradient(1px 1px at 12% 22%, rgba(244, 238, 223, 0.8), transparent 100%),
+      radial-gradient(1px 1px at 34% 68%, rgba(244, 238, 223, 0.5), transparent 100%),
+      radial-gradient(1.5px 1.5px at 56% 14%, rgba(235, 217, 168, 0.7), transparent 100%),
+      radial-gradient(1px 1px at 71% 44%, rgba(244, 238, 223, 0.6), transparent 100%),
+      radial-gradient(1px 1px at 85% 75%, rgba(244, 238, 223, 0.45), transparent 100%),
+      radial-gradient(1.5px 1.5px at 93% 28%, rgba(235, 217, 168, 0.55), transparent 100%),
+      radial-gradient(1px 1px at 22% 88%, rgba(244, 238, 223, 0.4), transparent 100%),
+      radial-gradient(1px 1px at 48% 92%, rgba(244, 238, 223, 0.55), transparent 100%);
     background-size: 900px 700px;
   }
   /* Whisper of aurora on light/ivory sections — background-image only,
@@ -205,7 +208,7 @@
   .aurora-wash {
     background-image:
       radial-gradient(ellipse 45% 35% at 8% 0%, rgba(106, 84, 158, 0.08), transparent 70%),
-      radial-gradient(ellipse 50% 40% at 95% 12%, rgba(201, 169, 106, 0.1), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 95% 12%, rgba(196, 161, 94, 0.1), transparent 70%),
       radial-gradient(ellipse 60% 30% at 50% 100%, rgba(74, 92, 155, 0.06), transparent 75%);
   }
   .text-balance {
@@ -214,14 +217,41 @@
   .marquee-track {
     animation: marquee-scroll 40s linear infinite;
   }
+  .marquee-mask:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  /* Soft edge fade so the ribbon dissolves instead of clipping */
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
   /* Oversized editorial display line */
   .display-xl {
-    font-size: clamp(2.75rem, 5vw + 1.5rem, 6.25rem);
-    line-height: 1.05;
+    font-size: clamp(3rem, 6vw + 1.5rem, 7rem);
+    line-height: 1.02;
   }
   .display-lg {
     font-size: clamp(2.25rem, 3.5vw + 1rem, 4.25rem);
     line-height: 1.08;
+  }
+  .display-md {
+    font-size: clamp(1.75rem, 2vw + 1rem, 2.75rem);
+    line-height: 1.15;
+  }
+  /* Per-audience whisper tints for chapter spreads — background-image only,
+     the ivory background-color underneath must survive */
+  .tint-wine {
+    background-image: radial-gradient(ellipse 60% 55% at 70% 40%, rgba(110, 39, 53, 0.07), transparent 70%);
+  }
+  .tint-navy {
+    background-image: radial-gradient(ellipse 60% 55% at 30% 40%, rgba(39, 51, 79, 0.08), transparent 70%);
+  }
+  /* Ghost chapter numeral layered behind editorial spreads */
+  .ghost-numeral {
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 22vw, 20rem);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
   }
 }
 

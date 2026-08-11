@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ShopGrid } from "@/components/product/shop-grid";
+import { HeroReveal, RevealItem } from "@/components/motion/primitives";
 
 export async function generateMetadata({
   params,
@@ -20,16 +21,24 @@ export default async function ShopPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("shop");
+  const tCommon = await getTranslations("common");
 
   return (
     <div className="aurora-wash bg-ivory">
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-32 sm:px-6 sm:pb-28 sm:pt-40">
-        <div className="mb-10 space-y-3 text-center">
-          <h1 className="font-display text-3xl uppercase tracking-[0.18em] text-night sm:text-4xl">
-            {t("title")}
-          </h1>
-          <p className="text-muted-foreground">{t("subtitle")}</p>
-        </div>
+        <HeroReveal className="mb-12 space-y-3 text-center">
+          <RevealItem>
+            <p className="eyebrow text-gold-deep">{tCommon("tagline")}</p>
+          </RevealItem>
+          <RevealItem>
+            <h1 className="display-md font-display uppercase tracking-[0.08em] text-night">
+              {t("title")}
+            </h1>
+          </RevealItem>
+          <RevealItem>
+            <p className="text-muted-foreground">{t("subtitle")}</p>
+          </RevealItem>
+        </HeroReveal>
         <ShopGrid />
       </div>
     </div>

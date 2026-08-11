@@ -10,7 +10,7 @@ export function Marquee({ text }: { text: string }) {
     <div
       dir="ltr"
       aria-hidden
-      className="overflow-hidden border-y border-gold/25 bg-night py-4"
+      className="marquee-mask overflow-hidden border-y border-gold/25 bg-night py-4"
     >
       <div className="marquee-track flex w-max whitespace-nowrap">
         {[0, 1].map((i) => (

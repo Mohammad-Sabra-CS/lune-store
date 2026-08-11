@@ -6,12 +6,134 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
-} from "framer-motion";
+  type Variants,
+} from "motion/react";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+export const EASE = [0.22, 1, 0.36, 1] as const;
 
-/** Scroll-triggered fade + rise. Fires once. */
+/**
+ * Direction-aware x helper. Horizontal motion must go through dx() so it
+ * mirrors under RTL; prefer y/opacity/scale/clip-path, which need no flip.
+ */
+export function useDir() {
+  const isRtl = useLocale() === "ar";
+  return { isRtl, dx: (v: number) => (isRtl ? -v : v) };
+}
+
+export const revealContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
+};
+
+/** Scroll-triggered stagger container. Children: RevealItem / LineReveal. */
+export function Reveal({
+  children,
+  className,
+  amount = 0.2,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  amount?: number;
+}) {
+  return (
+    <motion.div
+      className={className}
+      variants={revealContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Load-time stagger container for above-the-fold hero content. */
+export function HeroReveal({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      className={className}
+      variants={revealContainer}
+      initial="hidden"
+      animate="show"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Fade + rise item inside a Reveal/HeroReveal container. */
+export function RevealItem({
+  children,
+  className,
+  y = 24,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  y?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      className={className}
+      variants={{
+        hidden: reduce ? { opacity: 0 } : { opacity: 0, y },
+        show: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.7, ease: EASE },
+        },
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Headline line rising out of an overflow clip. Works standalone or as a
+ *  variants child inside Reveal/HeroReveal (omit `standalone`). */
+export function LineReveal({
+  children,
+  className,
+  delay = 0,
+  standalone = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  standalone?: boolean;
+}) {
+  const reduce = useReducedMotion();
+  const hidden = reduce ? { opacity: 1 } : { y: "115%" as const };
+  const show = {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, delay, ease: EASE },
+  };
+  return (
+    <span className={cn("block overflow-hidden", className)}>
+      <motion.span
+        className="block"
+        {...(standalone
+          ? { initial: reduce ? false : hidden, whileInView: show, viewport: { once: true, amount: 0.6 } }
+          : { variants: { hidden, show } })}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+/** Scroll-triggered fade + rise, fires once. For one-off elements outside a
+ *  Reveal container. */
 export function FadeUp({
   children,
   className,
@@ -37,54 +159,6 @@ export function FadeUp({
   );
 }
 
-/** Headline line that rises out of an overflow clip on page load. */
-export function LineReveal({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const reduce = useReducedMotion();
-  return (
-    <span className={cn("block overflow-hidden", className)}>
-      <motion.span
-        className="block"
-        initial={reduce ? false : { y: "115%" }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.9, delay, ease: EASE }}
-      >
-        {children}
-      </motion.span>
-    </span>
-  );
-}
-
-/** Load-time fade for hero elements below the headline. */
-export function FadeIn({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9, delay, ease: EASE }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 /** Slow perpetual floating, like something adrift in still water. */
 export function Float({
   children,
@@ -102,14 +176,17 @@ export function Float({
     <motion.div
       className={className}
       animate={reduce ? undefined : { y: [0, -amplitude, 0] }}
-      transition={{ duration, repeat: Infinity, ease: "easeInOut" }}
+      transition={
+        reduce ? undefined : { duration, repeat: Infinity, ease: "easeInOut" }
+      }
     >
       {children}
     </motion.div>
   );
 }
 
-/** Gentle scroll parallax for imagery. */
+/** Gentle scroll parallax for imagery. useTransform styles bypass
+ *  MotionConfig's reducedMotion, so the guard here is load-bearing. */
 export function Parallax({
   children,
   className,
@@ -132,5 +209,27 @@ export function Parallax({
         {children}
       </motion.div>
     </div>
+  );
+}
+
+/** Image unveiled by a retracting clip — direction-neutral (top-down). */
+export function ClipReveal({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      className={className}
+      initial={reduce ? false : { clipPath: "inset(0 0 100% 0)" }}
+      whileInView={{ clipPath: "inset(0 0 0% 0)" }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 1.1, ease: EASE }}
+    >
+      {children}
+    </motion.div>
   );
 }

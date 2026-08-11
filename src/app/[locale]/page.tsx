@@ -5,12 +5,15 @@ import { products } from "@/data/products";
 import { AuroraBackground } from "@/components/aurora";
 import { Marquee } from "@/components/motion/marquee";
 import {
-  FadeIn,
-  FadeUp,
+  ClipReveal,
   Float,
+  HeroReveal,
   LineReveal,
   Parallax,
+  Reveal,
+  RevealItem,
 } from "@/components/motion/primitives";
+import { Spotlight } from "@/components/motion/spotlight";
 import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -33,23 +36,24 @@ export default async function HomePage({
       {/* ── Dusk: hero ─────────────────────────────────────────── */}
       <section className="relative isolate overflow-hidden bg-night text-moon">
         <AuroraBackground intensity="hero" />
-        <div className="mx-auto grid min-h-svh max-w-6xl items-center gap-12 px-4 pb-20 pt-28 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:pt-24">
-          <div className="space-y-8 text-center lg:text-start">
-            <FadeIn delay={0.1}>
-              <p className="eyebrow">{t("heroKicker")}</p>
-            </FadeIn>
-            <h1 className="display-xl font-display tracking-wide">
-              <LineReveal delay={0.25}>{t("heroTitleA")}</LineReveal>
-              <LineReveal delay={0.42}>
-                <span className="text-gold">{t("heroTitleB")}</span>
+        <Spotlight />
+        <div className="mx-auto grid min-h-svh max-w-6xl items-center gap-12 px-4 pb-24 pt-28 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:pt-24">
+          <HeroReveal className="space-y-8 text-center lg:text-start">
+            <RevealItem>
+              <p className="eyebrow text-gold">{t("heroKicker")}</p>
+            </RevealItem>
+            <h1 className="display-xl font-display">
+              <LineReveal>{t("heroTitleA")}</LineReveal>
+              <LineReveal>
+                <span className="italic text-gold">{t("heroTitleB")}</span>
               </LineReveal>
             </h1>
-            <FadeIn delay={0.7}>
+            <RevealItem>
               <p className="mx-auto max-w-md text-base leading-relaxed text-moon/75 lg:mx-0">
                 {t("heroSubtitle")}
               </p>
-            </FadeIn>
-            <FadeIn delay={0.9}>
+            </RevealItem>
+            <RevealItem>
               <Button
                 render={<Link href="/shop" />}
                 variant="outline"
@@ -58,27 +62,37 @@ export default async function HomePage({
               >
                 {t("heroCta")}
               </Button>
-            </FadeIn>
-          </div>
+            </RevealItem>
+          </HeroReveal>
 
-          <FadeIn delay={0.5} className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <Float amplitude={9} duration={7}>
-              <div className="relative aspect-[3/4] overflow-hidden border border-gold/25">
-                <Image
-                  src="/products/hero-marble.jpg"
-                  alt="Lune Eau de Parfum"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 90vw, 40vw"
-                  className="object-cover"
-                />
-              </div>
+          <HeroReveal className="relative mx-auto w-full max-w-sm lg:max-w-none">
+            <RevealItem y={32}>
+              <Float amplitude={9} duration={7}>
+                <div className="relative aspect-[3/4] overflow-hidden border border-gold/25">
+                  <Image
+                    src="/products/hero-marble.jpg"
+                    alt="Lune Eau de Parfum"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 90vw, 40vw"
+                    className="object-cover"
+                  />
+                </div>
+              </Float>
+            </RevealItem>
+            <Float amplitude={6} duration={9} className="absolute -inset-8 -z-10">
+              <div className="h-full w-full rounded-full bg-gold/10 blur-3xl" aria-hidden />
             </Float>
-            <div
-              className="absolute -inset-8 -z-10 rounded-full bg-gold/10 blur-3xl"
-              aria-hidden
-            />
-          </FadeIn>
+          </HeroReveal>
+        </div>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center">
+          <Float amplitude={6} duration={2.6}>
+            <span className="flex flex-col items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-moon/50">
+              {t("scrollHint")}
+              <span aria-hidden className="block h-8 w-px bg-gradient-to-b from-gold/70 to-transparent" />
+            </span>
+          </Float>
         </div>
       </section>
 
@@ -86,85 +100,115 @@ export default async function HomePage({
       <Marquee text={t("marquee")} />
 
       {/* ── The four chapters ──────────────────────────────────── */}
-      <section className="aurora-wash bg-ivory py-20 sm:py-28">
+      <section className="aurora-wash overflow-hidden bg-ivory py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <FadeUp className="mb-16 space-y-3 text-center sm:mb-24">
-            <p className="eyebrow">{tCommon("tagline")}</p>
-            <h2 className="display-lg font-display uppercase tracking-[0.12em] text-night">
-              {t("chapters")}
-            </h2>
-            <p className="text-muted-foreground">{t("chaptersSubtitle")}</p>
-          </FadeUp>
+          <Reveal className="mb-16 space-y-3 text-center sm:mb-24">
+            <RevealItem>
+              <p className="eyebrow text-gold-deep">{tCommon("tagline")}</p>
+            </RevealItem>
+            <RevealItem>
+              <h2 className="display-lg font-display uppercase tracking-[0.06em] text-night">
+                {t("chapters")}
+              </h2>
+            </RevealItem>
+            <RevealItem>
+              <p className="text-muted-foreground">{t("chaptersSubtitle")}</p>
+            </RevealItem>
+          </Reveal>
 
-          <div className="space-y-20 sm:space-y-28">
+          <div className="space-y-24 sm:space-y-36">
             {products.map((product, i) => {
               const flip = i % 2 === 1;
               return (
-                <FadeUp key={product.slug}>
-                  <article
+                <article
+                  key={product.slug}
+                  className={cn(
+                    "relative",
+                    product.audience === "women" ? "tint-wine" : "tint-navy",
+                  )}
+                >
+                  <span
+                    aria-hidden
                     className={cn(
-                      "grid items-center gap-8 lg:grid-cols-2 lg:gap-16",
+                      "ghost-numeral absolute -top-16 hidden text-night/[0.05] lg:block",
+                      flip ? "start-0" : "end-0",
                     )}
                   >
-                    <Parallax
-                      range={30}
-                      className={cn(
-                        "relative overflow-hidden",
-                        flip && "lg:order-2",
-                      )}
-                    >
-                      <Link
-                        href={`/product/${product.slug}`}
-                        className="group block"
-                      >
-                        <div className="relative aspect-[4/5] overflow-hidden bg-night sm:aspect-[5/4]">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            sizes="(max-width: 1024px) 90vw, 45vw"
-                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                          />
-                        </div>
-                      </Link>
-                    </Parallax>
+                    {ROMAN[i]}
+                  </span>
+                  <div className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+                    <ClipReveal className={cn(flip && "lg:order-2")}>
+                      <Parallax range={30} className="relative overflow-hidden">
+                        <Link
+                          href={`/product/${product.slug}`}
+                          className="group block"
+                        >
+                          <div className="relative aspect-[4/5] overflow-hidden bg-night sm:aspect-[5/4]">
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              fill
+                              sizes="(max-width: 1024px) 90vw, 45vw"
+                              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                            />
+                          </div>
+                        </Link>
+                      </Parallax>
+                    </ClipReveal>
 
-                    <div
+                    <Reveal
                       className={cn(
-                        "space-y-5 text-center lg:text-start",
+                        "relative space-y-5 text-center lg:text-start",
                         flip && "lg:order-1",
                       )}
                     >
-                      <div className="flex items-center justify-center gap-3 lg:justify-start">
-                        <MoonPhaseGlyph phase={product.phase} />
-                        <span className="text-[0.7rem] uppercase tracking-[0.3em] text-muted-foreground">
-                          {tCommon("chapter")} {ROMAN[i]} — {tCommon(product.audience)}
-                        </span>
-                      </div>
-                      <h3 className="display-lg font-display uppercase tracking-[0.12em] text-night">
-                        {product.name}
-                      </h3>
-                      <p className="font-display text-xl italic leading-relaxed text-night/70">
-                        {product.poetry[locale]}
-                      </p>
-                      <p className="text-sm tracking-wide text-gold">
-                        {product.character[locale]}
-                      </p>
-                      <div className="flex items-center justify-center gap-6 pt-2 lg:justify-start">
-                        <span className="font-display text-2xl tabular-nums text-night">
-                          {product.price} {tCommon("currency")}
-                        </span>
-                        <Button
-                          render={<Link href={`/product/${product.slug}`} />}
-                          variant="outline"
-                          className="rounded-none border-night/30 bg-transparent px-8 py-5 text-xs tracking-[0.25em] uppercase text-night transition-colors duration-300 hover:border-night hover:bg-night hover:text-moon"
+                      <RevealItem>
+                        <div className="flex items-center justify-center gap-3 lg:justify-start">
+                          <MoonPhaseGlyph phase={product.phase} />
+                          <span className="text-[0.7rem] uppercase tracking-[0.3em] text-muted-foreground">
+                            {tCommon("chapter")} {ROMAN[i]} — {tCommon(product.audience)}
+                          </span>
+                        </div>
+                      </RevealItem>
+                      <RevealItem>
+                        <h3 className="display-lg font-display uppercase tracking-[0.06em] text-night">
+                          {product.name}
+                        </h3>
+                      </RevealItem>
+                      <RevealItem>
+                        <p className="font-display text-xl italic leading-relaxed text-night/70">
+                          {product.poetry[locale]}
+                        </p>
+                      </RevealItem>
+                      <RevealItem>
+                        <p
+                          className={cn(
+                            "text-sm tracking-wide",
+                            product.audience === "women"
+                              ? "text-wine"
+                              : "text-navy-lune",
+                          )}
                         >
-                          {t("chapterCta")}
-                        </Button>
-                      </div>
-                    </div>
-                  </article>
-                </FadeUp>
+                          {product.character[locale]}
+                        </p>
+                      </RevealItem>
+                      <RevealItem>
+                        <div className="flex items-center justify-center gap-6 pt-2 lg:justify-start">
+                          <span className="font-display text-2xl tabular-nums text-night">
+                            {product.price} {tCommon("currency")}
+                          </span>
+                          <Button
+                            render={<Link href={`/product/${product.slug}`} />}
+                            variant="outline"
+                            className="rounded-none border-night/30 bg-transparent px-8 py-5 text-xs tracking-[0.25em] uppercase text-night transition-colors duration-300 hover:border-night hover:bg-night hover:text-moon"
+                          >
+                            {t("chapterCta")}
+                          </Button>
+                        </div>
+                      </RevealItem>
+                    </Reveal>
+                  </div>
+                </article>
               );
             })}
           </div>
@@ -175,13 +219,17 @@ export default async function HomePage({
       <section className="relative isolate overflow-hidden bg-night py-20 text-moon sm:py-28">
         <AuroraBackground intensity="subtle" />
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <FadeUp className="mb-14 space-y-3 text-center">
-            <p className="eyebrow">{t("ritualSubtitle")}</p>
-            <h2 className="display-lg font-display tracking-wide">
-              {t("ritualTitle")}
-            </h2>
-          </FadeUp>
-          <div className="grid gap-10 sm:grid-cols-3 sm:gap-8">
+          <Reveal className="mb-14 space-y-3 text-center">
+            <RevealItem>
+              <p className="eyebrow text-gold">{t("ritualSubtitle")}</p>
+            </RevealItem>
+            <RevealItem>
+              <h2 className="display-lg font-display tracking-wide">
+                {t("ritualTitle")}
+              </h2>
+            </RevealItem>
+          </Reveal>
+          <Reveal className="grid gap-6 sm:grid-cols-3 sm:gap-8">
             {(
               [
                 ["ritualAct1Name", "ritualAct1Line"],
@@ -189,21 +237,25 @@ export default async function HomePage({
                 ["ritualAct3Name", "ritualAct3Line"],
               ] as const
             ).map(([nameKey, lineKey], i) => (
-              <FadeUp key={nameKey} delay={i * 0.12}>
-                <div className="space-y-4 border-t border-gold/30 pt-6 text-center sm:text-start">
-                  <span className="font-display text-4xl text-gold/60">
+              <RevealItem key={nameKey}>
+                <div className="group relative h-full border border-moon/10 bg-night-soft/40 p-8 text-center transition-colors duration-500 hover:border-gold/40 sm:text-start">
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-px origin-center scale-x-0 bg-gold transition-transform duration-500 ease-out group-hover:scale-x-100"
+                  />
+                  <span className="font-display text-4xl text-gold/60 transition-colors duration-500 group-hover:text-gold">
                     {ROMAN[i]}
                   </span>
-                  <h3 className="font-display text-xl uppercase tracking-[0.2em]">
+                  <h3 className="mt-4 font-display text-xl uppercase tracking-[0.14em]">
                     {t(nameKey)}
                   </h3>
-                  <p className="text-sm leading-relaxed text-moon/70">
+                  <p className="mt-4 text-sm leading-relaxed text-moon/50 transition-all duration-500 group-hover:translate-y-0 group-hover:text-moon/80 sm:translate-y-1.5">
                     {t(lineKey)}
                   </p>
                 </div>
-              </FadeUp>
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -211,27 +263,29 @@ export default async function HomePage({
       <section className="relative isolate overflow-hidden border-t border-moon/10 bg-night py-20 text-moon sm:py-28">
         <AuroraBackground intensity="subtle" />
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2">
-          <FadeUp className="relative mx-auto aspect-[4/3] w-full max-w-md overflow-hidden border border-gold/25 lg:max-w-none">
-            <Image
-              src="/products/set-men.jpg"
-              alt="Lune package"
-              fill
-              sizes="(max-width: 1024px) 90vw, 45vw"
-              className="object-cover"
-            />
-          </FadeUp>
-          <div className="space-y-6 text-center lg:text-start">
-            <FadeUp>
+          <ClipReveal className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <Parallax range={24} className="relative aspect-[4/3] overflow-hidden border border-gold/25">
+              <Image
+                src="/products/set-men.jpg"
+                alt="Lune package"
+                fill
+                sizes="(max-width: 1024px) 90vw, 45vw"
+                className="object-cover"
+              />
+            </Parallax>
+          </ClipReveal>
+          <Reveal className="space-y-6 text-center lg:text-start">
+            <RevealItem>
               <h2 className="display-lg font-display text-balance leading-snug tracking-wide">
                 {t("storyTitle")}
               </h2>
-            </FadeUp>
-            <FadeUp delay={0.12}>
+            </RevealItem>
+            <RevealItem>
               <p className="mx-auto max-w-md leading-relaxed text-moon/75 lg:mx-0">
                 {t("storyText")}
               </p>
-            </FadeUp>
-            <FadeUp delay={0.24}>
+            </RevealItem>
+            <RevealItem>
               <Button
                 render={<Link href="/shop" />}
                 variant="outline"
@@ -240,8 +294,8 @@ export default async function HomePage({
               >
                 {t("storyCta")}
               </Button>
-            </FadeUp>
-          </div>
+            </RevealItem>
+          </Reveal>
         </div>
       </section>
     </>

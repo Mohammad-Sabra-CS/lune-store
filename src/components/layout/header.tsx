@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { ShoppingBag } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -64,9 +65,15 @@ export function Header() {
           >
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
-              <span className="absolute -top-0.5 -end-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[0.7rem] font-semibold text-night">
+              <motion.span
+                key={count}
+                initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 22 }}
+                className="absolute -top-0.5 -end-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[0.7rem] font-semibold text-night"
+              >
                 {count}
-              </span>
+              </motion.span>
             )}
           </button>
         </div>

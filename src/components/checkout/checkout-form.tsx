@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { CreditCard, Banknote } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
@@ -10,11 +11,32 @@ import { Label } from "@/components/ui/label";
 import { useCart } from "@/components/cart/cart-context";
 import { getProduct } from "@/data/products";
 import { placeOrder } from "@/app/[locale]/checkout/actions";
+import { AnimatedNumber } from "@/components/motion/animated-number";
+import { EASE, HeroReveal, RevealItem } from "@/components/motion/primitives";
 import { cn } from "@/lib/utils";
 
 type FieldErrors = Partial<
   Record<"name" | "email" | "phone" | "city" | "address", string>
 >;
+
+/** Validation message that unfolds under its field. */
+function FieldError({ children }: { children?: React.ReactNode }) {
+  return (
+    <AnimatePresence initial={false}>
+      {children && (
+        <motion.p
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.25, ease: EASE }}
+          className="overflow-hidden text-xs text-wine"
+        >
+          {children}
+        </motion.p>
+      )}
+    </AnimatePresence>
+  );
+}
 
 export function CheckoutForm() {
   const t = useTranslations("checkout");
@@ -93,16 +115,17 @@ export function CheckoutForm() {
       className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr]"
       noValidate
     >
-      <div className="space-y-10">
+      <HeroReveal className="space-y-10">
         {/* Contact */}
+        <RevealItem>
         <fieldset className="space-y-5">
-          <legend className="eyebrow mb-4">{t("contactTitle")}</legend>
+          <legend className="eyebrow mb-4 text-gold-deep">{t("contactTitle")}</legend>
           <div className="space-y-2">
             <Label htmlFor="name" className="text-night/80">
               {t("name")}
             </Label>
             <Input id="name" name="name" autoComplete="name" className={inputClass} />
-            {errors.name && <p className="text-xs text-wine">{errors.name}</p>}
+            <FieldError>{errors.name}</FieldError>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="space-y-2">
@@ -117,7 +140,7 @@ export function CheckoutForm() {
                 dir="ltr"
                 className={inputClass}
               />
-              {errors.email && <p className="text-xs text-wine">{errors.email}</p>}
+              <FieldError>{errors.email}</FieldError>
             </div>
             <div className="space-y-2">
               <Label htmlFor="phone" className="text-night/80">
@@ -132,21 +155,23 @@ export function CheckoutForm() {
                 placeholder="07X XXX XXXX"
                 className={inputClass}
               />
-              {errors.phone && <p className="text-xs text-wine">{errors.phone}</p>}
+              <FieldError>{errors.phone}</FieldError>
             </div>
           </div>
         </fieldset>
+        </RevealItem>
 
         {/* Delivery */}
+        <RevealItem>
         <fieldset className="space-y-5">
-          <legend className="eyebrow mb-4">{t("deliveryTitle")}</legend>
+          <legend className="eyebrow mb-4 text-gold-deep">{t("deliveryTitle")}</legend>
           <div className="grid gap-5 sm:grid-cols-[0.6fr_1.4fr]">
             <div className="space-y-2">
               <Label htmlFor="city" className="text-night/80">
                 {t("city")}
               </Label>
               <Input id="city" name="city" className={inputClass} />
-              {errors.city && <p className="text-xs text-wine">{errors.city}</p>}
+              <FieldError>{errors.city}</FieldError>
             </div>
             <div className="space-y-2">
               <Label htmlFor="address" className="text-night/80">
@@ -158,16 +183,16 @@ export function CheckoutForm() {
                 autoComplete="street-address"
                 className={inputClass}
               />
-              {errors.address && (
-                <p className="text-xs text-wine">{errors.address}</p>
-              )}
+              <FieldError>{errors.address}</FieldError>
             </div>
           </div>
         </fieldset>
+        </RevealItem>
 
         {/* Payment */}
+        <RevealItem>
         <fieldset className="space-y-4">
-          <legend className="eyebrow mb-4">{t("paymentTitle")}</legend>
+          <legend className="eyebrow mb-4 text-gold-deep">{t("paymentTitle")}</legend>
           <label
             className={cn(
               "flex cursor-pointer items-center gap-4 border border-gold bg-card p-5 transition-colors",
@@ -178,7 +203,7 @@ export function CheckoutForm() {
               name="payment"
               value="cod"
               defaultChecked
-              className="h-4 w-4 accent-[#c9a96a]"
+              className="h-4 w-4 accent-gold"
             />
             <Banknote className="h-5 w-5 text-gold" />
             <span>
@@ -204,11 +229,16 @@ export function CheckoutForm() {
             </span>
           </div>
         </fieldset>
-      </div>
+        </RevealItem>
+      </HeroReveal>
 
       {/* Summary */}
-      <aside className="h-fit space-y-5 border border-night/10 bg-card p-6 lg:sticky lg:top-28">
-        <p className="eyebrow">{t("orderSummary")}</p>
+      <aside className="h-fit border border-night/10 bg-card lg:sticky lg:top-28">
+      <HeroReveal className="space-y-5 p-6">
+        <RevealItem>
+          <p className="eyebrow text-gold-deep">{t("orderSummary")}</p>
+        </RevealItem>
+        <RevealItem>
         <ul className="space-y-3 text-sm">
           {cart.items.map((item) => {
             const product = getProduct(item.slug);
@@ -225,38 +255,57 @@ export function CheckoutForm() {
             );
           })}
         </ul>
+        </RevealItem>
+        <RevealItem>
         <dl className="space-y-2 border-t border-night/10 pt-4 text-sm">
           <div className="flex justify-between text-night/70">
             <dt>{tCart("subtotal")}</dt>
-            <dd className="tabular-nums">
-              {cart.subtotal} {tCommon("currency")}
+            <dd>
+              <AnimatedNumber value={cart.subtotal} /> {tCommon("currency")}
             </dd>
           </div>
           <div className="flex justify-between text-night/70">
             <dt>{tCart("delivery")}</dt>
-            <dd className="tabular-nums">
-              {cart.deliveryFee} {tCommon("currency")}
+            <dd>
+              <AnimatedNumber value={cart.deliveryFee} /> {tCommon("currency")}
             </dd>
           </div>
           <div className="flex justify-between border-t border-night/10 pt-3 text-base font-medium text-night">
             <dt>{tCart("total")}</dt>
-            <dd className="tabular-nums">
-              {cart.total} {tCommon("currency")}
+            <dd>
+              <AnimatedNumber value={cart.total} /> {tCommon("currency")}
             </dd>
           </div>
         </dl>
-        {serverError && (
-          <p className="border border-wine/40 bg-wine/5 p-3 text-xs text-wine">
-            {t("errGeneric")}
-          </p>
-        )}
-        <Button
-          type="submit"
-          disabled={isPending}
-          className="w-full rounded-none bg-night py-7 text-sm tracking-[0.25em] uppercase text-moon transition-colors hover:bg-gold hover:text-night"
-        >
-          {isPending ? t("placing") : t("placeOrder")}
-        </Button>
+        </RevealItem>
+        <AnimatePresence initial={false}>
+          {serverError && (
+            <motion.p
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: EASE }}
+              className="overflow-hidden border border-wine/40 bg-wine/5 p-3 text-xs text-wine"
+            >
+              {t("errGeneric")}
+            </motion.p>
+          )}
+        </AnimatePresence>
+        <RevealItem>
+          <motion.div
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="w-full rounded-none bg-night py-7 text-sm tracking-[0.25em] uppercase text-moon transition-colors hover:bg-gold hover:text-night"
+            >
+              {isPending ? t("placing") : t("placeOrder")}
+            </Button>
+          </motion.div>
+        </RevealItem>
+      </HeroReveal>
       </aside>
     </form>
   );

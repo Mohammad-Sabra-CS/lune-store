@@ -3,6 +3,7 @@ import { listOrders } from "@/lib/orders";
 import { Button } from "@/components/ui/button";
 import { LoginForm } from "./login-form";
 import { OrdersTable } from "./orders-table";
+import { StatCards } from "./stat-cards";
 import { adminLogout } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -13,17 +14,16 @@ export default async function AdminPage() {
   }
 
   const orders = await listOrders();
-  const newCount = orders.filter((o) => o.status === "new").length;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between border-b border-night/10 pb-6">
         <div>
           <h1 className="font-display text-2xl uppercase tracking-[0.2em] text-night">
-            Lune — Orders
+            Lune
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {orders.length} total · {newCount} new
+          <p className="mt-1 text-xs uppercase tracking-[0.25em] text-gold-deep">
+            Orders dashboard
           </p>
         </div>
         <form action={adminLogout}>
@@ -36,6 +36,7 @@ export default async function AdminPage() {
           </Button>
         </form>
       </div>
+      <StatCards orders={orders} />
       <OrdersTable orders={orders} />
     </div>
   );

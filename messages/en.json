@@ -39,7 +39,8 @@
     "ritualAct3Line": "The seal — kept for the moments that matter.",
     "storyTitle": "Your presence is complete with love",
     "storyText": "Lune is a Jordanian house of fragrance, composed under a patient moon. Every box holds a small ceremony — parfum, mist and oil — layered so the night never quite lets go of you.",
-    "storyCta": "Shop the Collections"
+    "storyCta": "Shop the Collections",
+    "scrollHint": "Scroll"
   },
   "shop": {
     "title": "The Collections",
@@ -56,7 +57,8 @@
     "perfumeOil": "Concentrated Perfume Oil",
     "character": "The Character",
     "packagePrice": "Complete package",
-    "notFound": "Package not found"
+    "notFound": "Package not found",
+    "galleryImageLabel": "View {name} image {index}"
   },
   "cart": {
     "title": "Your Cart",
@@ -67,7 +69,8 @@
     "total": "Total",
     "checkout": "Checkout",
     "remove": "Remove",
-    "quantity": "Quantity"
+    "quantity": "Quantity",
+    "updated": "Cart updated"
   },
   "checkout": {
     "title": "Checkout",

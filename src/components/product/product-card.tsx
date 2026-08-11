@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Product } from "@/data/products";
 import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
+import { TiltCard } from "@/components/motion/tilt-card";
 
 export function ProductCard({ product }: { product: Product }) {
   const locale = useLocale() as "en" | "ar";
@@ -12,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden bg-night">
+      <TiltCard className="aspect-[4/5] overflow-hidden bg-night">
         <Image
           src={product.image}
           alt={product.name}
@@ -21,7 +22,7 @@ export function ProductCard({ product }: { product: Product }) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-night/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      </div>
+      </TiltCard>
       <div className="mt-4 space-y-1.5">
         <div className="flex items-center gap-2">
           <MoonPhaseGlyph phase={product.phase} className="h-3.5 w-3.5" />
@@ -29,7 +30,7 @@ export function ProductCard({ product }: { product: Product }) {
             {tCommon(product.audience)}
           </span>
         </div>
-        <h3 className="font-display text-xl uppercase tracking-[0.15em] text-night">
+        <h3 className="font-display text-xl uppercase tracking-[0.08em] text-night">
           {product.name}
           <span className="block h-px max-w-0 bg-gold transition-all duration-500 group-hover:max-w-full" />
         </h3>

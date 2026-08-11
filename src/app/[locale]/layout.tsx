@@ -2,18 +2,20 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Marcellus, Jost, Amiri, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Playfair_Display, Jost, Amiri, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { CartProvider } from "@/components/cart/cart-context";
+import { MotionProvider } from "@/components/motion/motion-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import "../globals.css";
 
-const marcellus = Marcellus({
-  weight: "400",
+const playfair = Playfair_Display({
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
-  variable: "--font-marcellus",
+  variable: "--font-playfair",
 });
 
 const jost = Jost({
@@ -46,7 +48,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "home" });
   return {
     title: {
-      default: `Lune — ${t("heroTitle")}`,
+      default: `Lune — ${t("heroTitleA")} ${t("heroTitleB")}`,
       template: "%s — Lune",
     },
     description: t("heroSubtitle"),
@@ -70,22 +72,24 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`${marcellus.variable} ${jost.variable} ${amiri.variable} ${plexArabic.variable}`}
+      className={`${playfair.variable} ${jost.variable} ${amiri.variable} ${plexArabic.variable}`}
       style={
         {
-          "--font-display": `var(--font-marcellus), var(--font-amiri), serif`,
+          "--font-display": `var(--font-playfair), var(--font-amiri), serif`,
           "--font-sans": `var(--font-jost), var(--font-plex-arabic), sans-serif`,
         } as React.CSSProperties
       }
     >
       <body className="min-h-screen antialiased">
         <NextIntlClientProvider>
+          <MotionProvider>
           <CartProvider>
             <Header />
             <main>{children}</main>
             <Footer />
             <CartDrawer />
           </CartProvider>
+          </MotionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

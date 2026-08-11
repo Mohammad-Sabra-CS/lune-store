@@ -13,8 +13,9 @@ export function LoginForm() {
     <div className="flex min-h-screen items-center justify-center px-4">
       <form
         action={action}
-        className="w-full max-w-sm space-y-6 border border-night/10 bg-card p-8"
+        className="relative w-full max-w-sm space-y-6 border border-night/10 bg-card p-8 animate-in fade-in zoom-in-95 duration-500"
       >
+        <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-gold" />
         <div className="space-y-1 text-center">
           <p className="font-display text-2xl uppercase tracking-[0.25em] text-night">
             Lune
@@ -31,7 +32,9 @@ export function LoginForm() {
             className="rounded-none border-night/25 py-6"
           />
           {state.error && (
-            <p className="text-xs text-wine">Wrong password. Try again.</p>
+            <p className="text-xs text-wine animate-in fade-in slide-in-from-top-1 duration-300">
+              Wrong password. Try again.
+            </p>
           )}
         </div>
         <Button
