@@ -1,26 +1,273 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-display);
+  --font-display: var(--font-display);
+
+  /* Lune brand */
+  --color-night: #101321;
+  --color-night-soft: #1a1e2e;
+  --color-night-mist: #262b40;
+  --color-moon: #f3eddf;
+  --color-gold: #c9a96a;
+  --color-gold-bright: #e3c98d;
+  --color-ivory: #f5f1e8;
+  --color-ivory-deep: #ece5d6;
+  --color-wine: #7e2d3c;
+  --color-navy-lune: #2e3a5c;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #f5f1e8;
+  --foreground: #101321;
+  --card: #fbf8f1;
+  --card-foreground: #101321;
+  --popover: #fbf8f1;
+  --popover-foreground: #101321;
+  --primary: #101321;
+  --primary-foreground: #f3eddf;
+  --secondary: #ece5d6;
+  --secondary-foreground: #101321;
+  --muted: #ece5d6;
+  --muted-foreground: #6b6553;
+  --accent: #c9a96a;
+  --accent-foreground: #101321;
+  --destructive: #9d2f2f;
+  --border: #1013211f;
+  --input: #10132126;
+  --ring: #c9a96a;
+  --chart-1: #c9a96a;
+  --chart-2: #2e3a5c;
+  --chart-3: #7e2d3c;
+  --chart-4: #6b6553;
+  --chart-5: #1a1e2e;
+  --radius: 0.25rem;
+  --sidebar: #fbf8f1;
+  --sidebar-foreground: #101321;
+  --sidebar-primary: #101321;
+  --sidebar-primary-foreground: #f3eddf;
+  --sidebar-accent: #ece5d6;
+  --sidebar-accent-foreground: #101321;
+  --sidebar-border: #1013211f;
+  --sidebar-ring: #c9a96a;
+}
+
+.dark {
+  --background: #101321;
+  --foreground: #f3eddf;
+  --card: #1a1e2e;
+  --card-foreground: #f3eddf;
+  --popover: #1a1e2e;
+  --popover-foreground: #f3eddf;
+  --primary: #c9a96a;
+  --primary-foreground: #101321;
+  --secondary: #262b40;
+  --secondary-foreground: #f3eddf;
+  --muted: #262b40;
+  --muted-foreground: #a89f8a;
+  --accent: #c9a96a;
+  --accent-foreground: #101321;
+  --destructive: #d05353;
+  --border: #f3eddf1a;
+  --input: #f3eddf24;
+  --ring: #c9a96a;
+  --chart-1: #c9a96a;
+  --chart-2: #8fa3d1;
+  --chart-3: #d0808f;
+  --chart-4: #a89f8a;
+  --chart-5: #f3eddf;
+  --sidebar: #1a1e2e;
+  --sidebar-foreground: #f3eddf;
+  --sidebar-primary: #c9a96a;
+  --sidebar-primary-foreground: #101321;
+  --sidebar-accent: #262b40;
+  --sidebar-accent-foreground: #f3eddf;
+  --sidebar-border: #f3eddf1a;
+  --sidebar-ring: #c9a96a;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+  ::selection {
+    background: #c9a96a;
+    color: #101321;
+  }
+  /* Tailwind v4 preflight leaves buttons with cursor:default */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  /* Visible keyboard focus for non-shadcn interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  [role="tab"]:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Small-caps gold eyebrow used above section titles */
+  .eyebrow {
+    @apply font-sans text-[0.7rem] font-medium uppercase tracking-[0.35em] text-gold;
+  }
+  /* Lune aurora: large blurred color curtains drifting over the night base.
+     Transform-only animation (cheap on mobile); screen blend for luminosity. */
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(70px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .aurora-1 {
+    background: radial-gradient(circle at 50% 50%, rgba(74, 92, 155, 0.75), transparent 65%);
+    animation: aurora-drift-1 13s ease-in-out infinite alternate;
+  }
+  .aurora-2 {
+    background: radial-gradient(circle at 50% 50%, rgba(106, 84, 158, 0.6), transparent 65%);
+    animation: aurora-drift-2 17s ease-in-out infinite alternate;
+  }
+  .aurora-3 {
+    background: radial-gradient(circle at 50% 50%, rgba(201, 169, 106, 0.42), transparent 62%);
+    animation: aurora-drift-3 11s ease-in-out infinite alternate;
+  }
+  /* Faint star field: layered tiny dots via repeating radial gradients */
+  .starfield {
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, rgba(243, 237, 223, 0.8), transparent 100%),
+      radial-gradient(1px 1px at 34% 68%, rgba(243, 237, 223, 0.5), transparent 100%),
+      radial-gradient(1.5px 1.5px at 56% 14%, rgba(227, 201, 141, 0.7), transparent 100%),
+      radial-gradient(1px 1px at 71% 44%, rgba(243, 237, 223, 0.6), transparent 100%),
+      radial-gradient(1px 1px at 85% 75%, rgba(243, 237, 223, 0.45), transparent 100%),
+      radial-gradient(1.5px 1.5px at 93% 28%, rgba(227, 201, 141, 0.55), transparent 100%),
+      radial-gradient(1px 1px at 22% 88%, rgba(243, 237, 223, 0.4), transparent 100%),
+      radial-gradient(1px 1px at 48% 92%, rgba(243, 237, 223, 0.55), transparent 100%);
+    background-size: 900px 700px;
+  }
+  /* Whisper of aurora on light/ivory sections — background-image only,
+     so the background-color underneath survives */
+  .aurora-wash {
+    background-image:
+      radial-gradient(ellipse 45% 35% at 8% 0%, rgba(106, 84, 158, 0.08), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 95% 12%, rgba(201, 169, 106, 0.1), transparent 70%),
+      radial-gradient(ellipse 60% 30% at 50% 100%, rgba(74, 92, 155, 0.06), transparent 75%);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .marquee-track {
+    animation: marquee-scroll 40s linear infinite;
+  }
+  /* Oversized editorial display line */
+  .display-xl {
+    font-size: clamp(2.75rem, 5vw + 1.5rem, 6.25rem);
+    line-height: 1.05;
+  }
+  .display-lg {
+    font-size: clamp(2.25rem, 3.5vw + 1rem, 4.25rem);
+    line-height: 1.08;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes aurora-drift-1 {
+  from {
+    transform: translate3d(-8%, -4%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(10%, 8%, 0) scale(1.18);
+  }
+}
+@keyframes aurora-drift-2 {
+  from {
+    transform: translate3d(6%, 10%, 0) scale(1.1) rotate(-6deg);
+  }
+  to {
+    transform: translate3d(-10%, -6%, 0) scale(0.94) rotate(5deg);
+  }
+}
+@keyframes aurora-drift-3 {
+  from {
+    transform: translate3d(4%, -8%, 0) scale(0.92);
+  }
+  to {
+    transform: translate3d(-6%, 6%, 0) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

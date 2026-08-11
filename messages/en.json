@@ -1,0 +1,106 @@
+{
+  "common": {
+    "brand": "Lune",
+    "tagline": "Lunar Allure",
+    "motto": "Your Presence Is Complete With Love",
+    "currency": "JD",
+    "addToCart": "Add to Cart",
+    "added": "Added",
+    "viewPackage": "View Package",
+    "men": "For Him",
+    "women": "For Her",
+    "chapter": "Chapter"
+  },
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "Our Story",
+    "cart": "Cart",
+    "openCart": "Open cart",
+    "switchLocale": "العربية"
+  },
+  "home": {
+    "heroKicker": "Lunar Allure — Amman",
+    "heroTitleA": "The night,",
+    "heroTitleB": "bottled.",
+    "heroSubtitle": "Four compositions drawn from the dark hours — an eau de parfum, a body mist and a perfume oil in every box, worn from first light to last whisper.",
+    "heroCta": "Begin the Night",
+    "marquee": "LUNE — LUNAR ALLURE — YOUR PRESENCE IS COMPLETE WITH LOVE",
+    "chapters": "Four Phases of One Moon",
+    "chaptersSubtitle": "Two for him. Two for her. Each phase, 35 JD.",
+    "chapterCta": "Discover",
+    "ritualTitle": "One box. Three acts.",
+    "ritualSubtitle": "Every Lune package is a small ceremony.",
+    "ritualAct1Name": "Eau de Parfum",
+    "ritualAct1Line": "The statement — worn where the evening begins.",
+    "ritualAct2Name": "Body Mist",
+    "ritualAct2Line": "The veil — a whisper for the in-between hours.",
+    "ritualAct3Name": "Perfume Oil",
+    "ritualAct3Line": "The seal — kept for the moments that matter.",
+    "storyTitle": "Your presence is complete with love",
+    "storyText": "Lune is a Jordanian house of fragrance, composed under a patient moon. Every box holds a small ceremony — parfum, mist and oil — layered so the night never quite lets go of you.",
+    "storyCta": "Shop the Collections"
+  },
+  "shop": {
+    "title": "The Collections",
+    "subtitle": "Choose your phase of the moon.",
+    "filterAll": "All",
+    "filterMen": "For Him",
+    "filterWomen": "For Her"
+  },
+  "product": {
+    "whatsInside": "Inside the Box",
+    "edpMen": "Eau de Parfum — 120ml",
+    "edpWomen": "Eau de Parfum — 100ml",
+    "bodyMist": "Body Mist",
+    "perfumeOil": "Concentrated Perfume Oil",
+    "character": "The Character",
+    "packagePrice": "Complete package",
+    "notFound": "Package not found"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty — for now.",
+    "emptyCta": "Explore the Collections",
+    "subtotal": "Subtotal",
+    "delivery": "Delivery",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "quantity": "Quantity"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "contactTitle": "Your Details",
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone number",
+    "deliveryTitle": "Delivery Address",
+    "city": "City",
+    "address": "Street address",
+    "paymentTitle": "Payment Method",
+    "cod": "Cash on Delivery",
+    "codDesc": "Pay in cash when your order arrives",
+    "card": "Visa / Card",
+    "cardSoon": "Coming soon",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order",
+    "placing": "Placing your order…",
+    "errRequired": "This field is required",
+    "errEmail": "Enter a valid email address",
+    "errPhone": "Enter a valid phone number",
+    "errGeneric": "Something went wrong. Please try again."
+  },
+  "confirmation": {
+    "title": "The night is yours",
+    "subtitle": "Your order is safely with us. We will be in touch to confirm your delivery.",
+    "orderNumber": "Order number",
+    "emailNote": "A receipt has been sent to your email.",
+    "backHome": "Back to Home"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "explore": "Explore",
+    "contact": "Contact"
+  }
+}

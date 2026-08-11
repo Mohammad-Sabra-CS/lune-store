@@ -1,0 +1,106 @@
+{
+  "common": {
+    "brand": "Lune",
+    "tagline": "سحر القمر",
+    "motto": "حضورك يكتمل بالحب",
+    "currency": "د.أ",
+    "addToCart": "أضف إلى السلة",
+    "added": "تمت الإضافة",
+    "viewPackage": "عرض التوليفة",
+    "men": "له",
+    "women": "لها",
+    "chapter": "الفصل"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "shop": "المتجر",
+    "about": "قصتنا",
+    "cart": "السلة",
+    "openCart": "فتح السلة",
+    "switchLocale": "English"
+  },
+  "home": {
+    "heroKicker": "سحر القمر — عمّان",
+    "heroTitleA": "ليلٌ",
+    "heroTitleB": "في قارورة.",
+    "heroSubtitle": "أربع توليفات مستوحاة من ساعات الليل — في كل صندوق عطر، وبودي ميست، وزيت عطري مركّز، ترافقك من أول الضوء حتى آخر همسة.",
+    "heroCta": "لتبدأ الليلة",
+    "marquee": "LUNE — LUNAR ALLURE — YOUR PRESENCE IS COMPLETE WITH LOVE",
+    "chapters": "أربعة أطوار لقمرٍ واحد",
+    "chaptersSubtitle": "توليفتان له، وتوليفتان لها. كل طورٍ بـ 35 دينارًا.",
+    "chapterCta": "اكتشف",
+    "ritualTitle": "صندوق واحد. ثلاثة فصول.",
+    "ritualSubtitle": "كل توليفة من Lune طقسٌ صغير.",
+    "ritualAct1Name": "العطر",
+    "ritualAct1Line": "الإعلان الأول — يُلبَس حيث تبدأ الأمسية.",
+    "ritualAct2Name": "بودي ميست",
+    "ritualAct2Line": "الوشاح — همسة لساعات ما بين المواعيد.",
+    "ritualAct3Name": "الزيت العطري",
+    "ritualAct3Line": "الخِتام — يُدَّخر للحظات التي تستحق.",
+    "storyTitle": "حضورك يكتمل بالحب",
+    "storyText": "Lune دار عطور أردنية وُلدت تحت قمرٍ صبور. في كل صندوق طقسٌ صغير — عطر، وبودي ميست، وزيت عطري — طبقاتٌ تجعل الليل لا يفلتك بسهولة.",
+    "storyCta": "تسوّق التوليفات"
+  },
+  "shop": {
+    "title": "التوليفات",
+    "subtitle": "اختر طورك من القمر.",
+    "filterAll": "الكل",
+    "filterMen": "له",
+    "filterWomen": "لها"
+  },
+  "product": {
+    "whatsInside": "محتويات الصندوق",
+    "edpMen": "عطر — 120 مل",
+    "edpWomen": "عطر — 100 مل",
+    "bodyMist": "بودي ميست",
+    "perfumeOil": "زيت عطري مركّز",
+    "character": "شخصية العطر",
+    "packagePrice": "التوليفة الكاملة",
+    "notFound": "التوليفة غير موجودة"
+  },
+  "cart": {
+    "title": "سلتك",
+    "empty": "سلتك فارغة — حتى الآن.",
+    "emptyCta": "اكتشف التوليفات",
+    "subtotal": "المجموع الفرعي",
+    "delivery": "رسوم التوصيل",
+    "total": "الإجمالي",
+    "checkout": "إتمام الطلب",
+    "remove": "إزالة",
+    "quantity": "الكمية"
+  },
+  "checkout": {
+    "title": "إتمام الطلب",
+    "contactTitle": "بياناتك",
+    "name": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "deliveryTitle": "عنوان التوصيل",
+    "city": "المدينة",
+    "address": "العنوان التفصيلي",
+    "paymentTitle": "طريقة الدفع",
+    "cod": "الدفع عند الاستلام",
+    "codDesc": "ادفع نقدًا عند استلام طلبك",
+    "card": "فيزا / بطاقة",
+    "cardSoon": "قريبًا",
+    "orderSummary": "ملخص الطلب",
+    "placeOrder": "تأكيد الطلب",
+    "placing": "جارٍ تأكيد الطلب…",
+    "errRequired": "هذا الحقل مطلوب",
+    "errEmail": "يرجى إدخال بريد إلكتروني صحيح",
+    "errPhone": "يرجى إدخال رقم هاتف صحيح",
+    "errGeneric": "حدث خطأ ما، يرجى المحاولة مرة أخرى."
+  },
+  "confirmation": {
+    "title": "الليلة لك",
+    "subtitle": "طلبك وصلنا بأمان، وسنتواصل معك قريبًا لتأكيد التوصيل.",
+    "orderNumber": "رقم الطلب",
+    "emailNote": "أرسلنا إيصال طلبك إلى بريدك الإلكتروني.",
+    "backHome": "العودة إلى الرئيسية"
+  },
+  "footer": {
+    "rights": "جميع الحقوق محفوظة.",
+    "explore": "استكشف",
+    "contact": "تواصل معنا"
+  }
+}
