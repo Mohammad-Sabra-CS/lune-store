@@ -116,7 +116,9 @@ export function LineReveal({
   const show = {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.9, delay, ease: EASE },
+    // No default delay — an explicit delay would override the parent
+    // stagger slot when used as a variants child.
+    transition: { duration: 0.9, ease: EASE, ...(delay ? { delay } : {}) },
   };
   return (
     // Extra clip padding (offset by negative margins) so tall glyphs —
