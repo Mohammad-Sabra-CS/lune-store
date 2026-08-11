@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { products } from "@/data/products";
 import { AuroraBackground } from "@/components/aurora";
-import { Marquee } from "@/components/motion/marquee";
 import {
   ClipReveal,
   Float,
@@ -45,7 +44,9 @@ export default async function HomePage({
             <h1 className="display-xl font-display">
               <LineReveal>{t("heroTitleA")}</LineReveal>
               <LineReveal>
-                <span className="italic text-gold">{t("heroTitleB")}</span>
+                <span className={cn("text-gold", locale === "en" && "italic")}>
+                  {t("heroTitleB")}
+                </span>
               </LineReveal>
             </h1>
             <RevealItem>
@@ -86,18 +87,7 @@ export default async function HomePage({
           </HeroReveal>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center">
-          <Float amplitude={6} duration={2.6}>
-            <span className="flex flex-col items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-moon/50">
-              {t("scrollHint")}
-              <span aria-hidden className="block h-8 w-px bg-gradient-to-b from-gold/70 to-transparent" />
-            </span>
-          </Float>
-        </div>
       </section>
-
-      {/* ── Gold ribbon ────────────────────────────────────────── */}
-      <Marquee text={t("marquee")} />
 
       {/* ── The four chapters ──────────────────────────────────── */}
       <section className="aurora-wash overflow-hidden bg-ivory py-20 sm:py-28">

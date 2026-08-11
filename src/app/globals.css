@@ -214,16 +214,6 @@
   .text-balance {
     text-wrap: balance;
   }
-  .marquee-track {
-    animation: marquee-scroll 40s linear infinite;
-  }
-  .marquee-mask:hover .marquee-track {
-    animation-play-state: paused;
-  }
-  /* Soft edge fade so the ribbon dissolves instead of clipping */
-  .marquee-mask {
-    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-  }
   /* Oversized editorial display line */
   .display-xl {
     font-size: clamp(3rem, 6vw + 1.5rem, 7rem);
@@ -236,6 +226,14 @@
   .display-md {
     font-size: clamp(1.75rem, 2vw + 1rem, 2.75rem);
     line-height: 1.15;
+  }
+  /* Arabic (Amiri) needs a taller line box — ascenders, descenders and
+     diacritics clip inside the tight Latin display leading */
+  [dir="rtl"] .display-xl {
+    line-height: 1.2;
+  }
+  [dir="rtl"] .display-lg {
+    line-height: 1.25;
   }
   /* Per-audience whisper tints for chapter spreads — background-image only,
      the ivory background-color underneath must survive */
@@ -252,15 +250,6 @@
     line-height: 1;
     pointer-events: none;
     user-select: none;
-  }
-}
-
-@keyframes marquee-scroll {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
   }
 }
 

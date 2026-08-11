@@ -119,7 +119,14 @@ export function LineReveal({
     transition: { duration: 0.9, delay, ease: EASE },
   };
   return (
-    <span className={cn("block overflow-hidden", className)}>
+    // Extra clip padding (offset by negative margins) so tall glyphs —
+    // Arabic ascenders/descenders, diacritics — aren't cut by the reveal.
+    <span
+      className={cn(
+        "block overflow-hidden pt-[0.12em] pb-[0.18em] -mt-[0.12em] -mb-[0.18em]",
+        className,
+      )}
+    >
       <motion.span
         className="block"
         {...(standalone
