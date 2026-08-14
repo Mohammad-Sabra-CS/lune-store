@@ -47,7 +47,9 @@ export function Footer() {
                 <li dir="ltr">Amman, Jordan</li>
                 <li>
                   <a
-                    href="https://instagram.com/lune"
+                    href="https://www.instagram.com/lune_perfume.jo?igsh=MTdocmNkOHJ4c21hcw=="
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="transition-colors hover:text-gold-bright"
                   >
                     Instagram
