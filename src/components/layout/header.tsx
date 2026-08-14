@@ -40,10 +40,10 @@ export function Header() {
           <LogoWordmark className="text-3xl text-moon" />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-sm tracking-wide sm:flex">
+        <nav className="flex items-center gap-5 text-sm tracking-wide sm:gap-8">
           <Link
             href="/"
-            className="text-moon/80 transition-colors hover:text-gold-bright"
+            className="hidden text-moon/80 transition-colors hover:text-gold-bright sm:block"
           >
             {t("home")}
           </Link>

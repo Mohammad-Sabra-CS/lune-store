@@ -43,6 +43,8 @@
   "shop": {
     "title": "The Collections",
     "subtitle": "Choose your phase of the moon.",
+    "bundleNote": "Each package holds an Eau de Parfum, a Body Mist and a Perfume Oil — 35 JD.",
+    "deliveryNote": "Cash on Delivery · 3 JD delivery",
     "filterAll": "All",
     "filterMen": "For Him",
     "filterWomen": "For Her"

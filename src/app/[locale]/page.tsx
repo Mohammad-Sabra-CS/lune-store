@@ -135,7 +135,7 @@ export default async function HomePage({
                         </div>
                       </RevealItem>
                       <RevealItem>
-                        <h3 className="display-lg font-display uppercase tracking-[0.06em] text-night">
+                        <h3 className="display-chapter font-display uppercase tracking-[0.06em] text-night">
                           {product.name}
                         </h3>
                       </RevealItem>

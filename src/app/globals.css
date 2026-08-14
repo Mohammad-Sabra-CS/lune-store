@@ -227,6 +227,11 @@
     font-size: clamp(1.75rem, 2vw + 1rem, 2.75rem);
     line-height: 1.15;
   }
+  /* Chapter package names: quieter on phones than display-lg, same on laptops */
+  .display-chapter {
+    font-size: clamp(1.875rem, 3.5vw + 0.75rem, 4.25rem);
+    line-height: 1.1;
+  }
   /* Arabic (Amiri) needs a taller line box — ascenders, descenders and
      diacritics clip inside the tight Latin display leading */
   [dir="rtl"] .display-xl {
@@ -234,6 +239,9 @@
   }
   [dir="rtl"] .display-lg {
     line-height: 1.25;
+  }
+  [dir="rtl"] .display-chapter {
+    line-height: 1.3;
   }
   /* Arabic eyebrows: 0.7rem is illegibly small for the Arabic faces, and
      heavy tracking visually disconnects joined Arabic script */
@@ -266,7 +274,7 @@
   /* Ghost chapter numeral layered behind editorial spreads */
   .ghost-numeral {
     font-family: var(--font-display);
-    font-size: clamp(8rem, 22vw, 20rem);
+    font-size: clamp(4.5rem, 22vw, 20rem);
     line-height: 1;
     pointer-events: none;
     user-select: none;
