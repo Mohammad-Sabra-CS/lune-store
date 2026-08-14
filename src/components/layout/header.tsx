@@ -58,7 +58,7 @@ export function Header() {
           </button>
           <Link
             href="/"
-            className="group flex items-center gap-2.5 text-gold transition-colors hover:text-gold-bright"
+            className="group hidden items-center gap-2.5 text-gold transition-colors hover:text-gold-bright sm:flex"
           >
             <LogoMark className="h-9 w-9 transition-transform duration-500 group-hover:rotate-12" />
             <LogoWordmark className="text-3xl text-moon" />
@@ -101,6 +101,13 @@ export function Header() {
               </motion.span>
             )}
           </button>
+          <Link
+            href="/"
+            className="group flex items-center gap-2.5 text-gold transition-colors hover:text-gold-bright sm:hidden"
+          >
+            <LogoMark className="h-9 w-9 transition-transform duration-500 group-hover:rotate-12" />
+            <LogoWordmark className="text-3xl text-moon" />
+          </Link>
         </div>
       </div>
     </header>
