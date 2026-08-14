@@ -105,8 +105,8 @@ export function Header() {
             href="/"
             className="group flex items-center gap-2.5 text-gold transition-colors hover:text-gold-bright sm:hidden"
           >
-            <LogoMark className="h-9 w-9 transition-transform duration-500 group-hover:rotate-12" />
             <LogoWordmark className="text-3xl text-moon" />
+            <LogoMark className="h-9 w-9 transition-transform duration-500 group-hover:rotate-12" />
           </Link>
         </div>
       </div>
