@@ -70,9 +70,7 @@ export default async function HomePage({
 
           <HeroReveal className="relative mx-auto w-full max-w-sm lg:max-w-none">
             <RevealItem y={32}>
-              <Float amplitude={9} duration={7}>
-                <HeroMedia />
-              </Float>
+              <HeroMedia />
             </RevealItem>
             <Float amplitude={6} duration={9} className="absolute -inset-8 -z-10">
               <div className="h-full w-full rounded-full bg-gold/10 blur-3xl" aria-hidden />
