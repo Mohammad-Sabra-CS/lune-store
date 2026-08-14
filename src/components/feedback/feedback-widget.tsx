@@ -73,7 +73,7 @@ export function FeedbackWidget() {
         side="right"
         className="flex w-full flex-col gap-0 bg-ivory p-0 sm:max-w-md"
       >
-        <SheetHeader className="border-b border-night/10 px-6 py-5 pe-12">
+        <SheetHeader className="border-b border-night/10 px-6 py-5 pr-12">
           <SheetTitle className="font-display text-xl tracking-[0.08em] uppercase text-night">
             {t("title")}
           </SheetTitle>

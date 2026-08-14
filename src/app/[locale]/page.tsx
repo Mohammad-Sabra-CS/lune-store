@@ -145,18 +145,6 @@ export default async function HomePage({
                         </p>
                       </RevealItem>
                       <RevealItem>
-                        <p
-                          className={cn(
-                            "text-sm tracking-wide",
-                            product.audience === "women"
-                              ? "text-wine"
-                              : "text-navy-lune",
-                          )}
-                        >
-                          {product.character[locale]}
-                        </p>
-                      </RevealItem>
-                      <RevealItem>
                         <div
                           className={cn(
                             "flex items-center justify-center gap-6 pt-2",

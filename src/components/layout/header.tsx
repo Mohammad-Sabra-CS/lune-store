@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { useCart } from "@/components/cart/cart-context";
 import { LogoMark, LogoWordmark } from "@/components/brand/logo";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { MobileMenu } from "@/components/layout/mobile-menu";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -40,10 +41,10 @@ export function Header() {
           <LogoWordmark className="text-3xl text-moon" />
         </Link>
 
-        <nav className="flex items-center gap-5 text-sm tracking-wide sm:gap-8">
+        <nav className="hidden items-center gap-8 text-sm tracking-wide sm:flex">
           <Link
             href="/"
-            className="hidden text-moon/80 transition-colors hover:text-gold-bright sm:block"
+            className="text-moon/80 transition-colors hover:text-gold-bright"
           >
             {t("home")}
           </Link>
@@ -56,12 +57,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <LocaleSwitcher />
+          <LocaleSwitcher className="hidden sm:flex" />
           <button
             type="button"
             onClick={openCart}
             aria-label={t("openCart")}
-            className="relative flex h-10 w-10 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright"
+            className="relative hidden h-10 w-10 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright sm:flex"
           >
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
@@ -76,6 +77,9 @@ export function Header() {
               </motion.span>
             )}
           </button>
+          <div className="sm:hidden">
+            <MobileMenu />
+          </div>
         </div>
       </div>
     </header>
