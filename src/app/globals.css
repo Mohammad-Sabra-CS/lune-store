@@ -235,6 +235,20 @@
   [dir="rtl"] .display-lg {
     line-height: 1.25;
   }
+  /* Arabic (Amiri / IBM Plex Sans Arabic) renders optically smaller than the
+     Latin faces at equal px — bump the common body sizes for readability */
+  [dir="rtl"] .text-xs {
+    font-size: 0.8125rem;
+  }
+  [dir="rtl"] .text-sm {
+    font-size: 0.9375rem;
+  }
+  [dir="rtl"] .text-base {
+    font-size: 1.0625rem;
+  }
+  [dir="rtl"] .text-xl {
+    font-size: 1.375rem;
+  }
   /* Per-audience whisper tints for chapter spreads — background-image only,
      the ivory background-color underneath must survive */
   .tint-wine {

@@ -71,13 +71,15 @@ export default async function HomePage({
             <RevealItem y={32}>
               <Float amplitude={9} duration={7}>
                 <div className="relative aspect-[3/4] overflow-hidden border border-gold/25">
-                  <Image
-                    src="/products/hero-marble.jpg"
-                    alt="Lune Eau de Parfum"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 90vw, 40vw"
-                    className="object-cover"
+                  <video
+                    src="/hero-loop.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    poster="/products/hero-marble.jpg"
+                    aria-label="Lune Eau de Parfum"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
               </Float>
@@ -121,7 +123,7 @@ export default async function HomePage({
                   <span
                     aria-hidden
                     className={cn(
-                      "ghost-numeral absolute -top-16 hidden text-night/[0.05] lg:block",
+                      "ghost-numeral absolute -top-16 hidden text-gold/30 lg:block",
                       flip ? "start-0" : "end-0",
                     )}
                   >
@@ -149,12 +151,17 @@ export default async function HomePage({
 
                     <Reveal
                       className={cn(
-                        "relative space-y-5 text-center lg:text-start",
-                        flip && "lg:order-1",
+                        "relative space-y-5 text-center",
+                        flip ? "lg:order-1 lg:text-end" : "lg:text-start",
                       )}
                     >
                       <RevealItem>
-                        <div className="flex items-center justify-center gap-3 lg:justify-start">
+                        <div
+                          className={cn(
+                            "flex items-center justify-center gap-3",
+                            flip ? "lg:justify-end" : "lg:justify-start",
+                          )}
+                        >
                           <MoonPhaseGlyph phase={product.phase} />
                           <span className="text-[0.7rem] uppercase tracking-[0.3em] text-muted-foreground">
                             {tCommon("chapter")} {ROMAN[i]} — {tCommon(product.audience)}
@@ -184,7 +191,12 @@ export default async function HomePage({
                         </p>
                       </RevealItem>
                       <RevealItem>
-                        <div className="flex items-center justify-center gap-6 pt-2 lg:justify-start">
+                        <div
+                          className={cn(
+                            "flex items-center justify-center gap-6 pt-2",
+                            flip ? "lg:justify-end" : "lg:justify-start",
+                          )}
+                        >
                           <span className="font-display text-2xl tabular-nums text-night">
                             {product.price} {tCommon("currency")}
                           </span>
