@@ -284,6 +284,31 @@
   }
 }
 
+/* No-JS safety net: Motion primitives server-render content hidden via inline
+   styles (opacity:0 / translateY / clip-path) and only reveal it after
+   hydration. If JS never arrives — failed chunk, hydration crash, slow
+   network — these animations force everything visible at 2.5s. A running
+   CSS animation is the only stylesheet mechanism that overrides an inline
+   style. The class is removed on hydration so Motion's own reveals run
+   untouched on a normal load. No `from`: starts at the SSR inline value. */
+@keyframes reveal-fallback {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.reveal-fallback {
+  animation: reveal-fallback 0.6s ease 2.5s forwards;
+}
+@keyframes clip-reveal-fallback {
+  to {
+    clip-path: inset(0 0 0% 0);
+  }
+}
+.clip-reveal-fallback {
+  animation: clip-reveal-fallback 0.6s ease 2.5s forwards;
+}
+
 @keyframes aurora-drift-1 {
   from {
     transform: translate3d(-8%, -4%, 0) scale(1);

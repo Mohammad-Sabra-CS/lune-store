@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -12,6 +12,18 @@ import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * Primitives that server-render a hidden inline style keep the CSS
+ * `reveal-fallback` class (globals.css) until hydration: if client JS never
+ * runs, the fallback animation force-reveals the content at 2.5s instead of
+ * leaving a blank page. Removed on mount so Motion owns the normal path.
+ */
+function useHydrated() {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  return hydrated;
+}
 
 /**
  * Direction-aware x helper. Horizontal motion must go through dx() so it
@@ -81,9 +93,10 @@ export function RevealItem({
   y?: number;
 }) {
   const reduce = useReducedMotion();
+  const hydrated = useHydrated();
   return (
     <motion.div
-      className={className}
+      className={cn(!hydrated && "reveal-fallback", className)}
       variants={{
         hidden: reduce ? { opacity: 0 } : { opacity: 0, y },
         show: {
@@ -112,6 +125,7 @@ export function LineReveal({
   standalone?: boolean;
 }) {
   const reduce = useReducedMotion();
+  const hydrated = useHydrated();
   const hidden = reduce ? { opacity: 1 } : { y: "115%" as const };
   const show = {
     opacity: 1,
@@ -130,7 +144,7 @@ export function LineReveal({
       )}
     >
       <motion.span
-        className="block"
+        className={cn("block", !hydrated && "reveal-fallback")}
         {...(standalone
           ? { initial: reduce ? false : hidden, whileInView: show, viewport: { once: true, amount: 0.6 } }
           : { variants: { hidden, show } })}
@@ -155,9 +169,10 @@ export function FadeUp({
   y?: number;
 }) {
   const reduce = useReducedMotion();
+  const hydrated = useHydrated();
   return (
     <motion.div
-      className={className}
+      className={cn(!hydrated && "reveal-fallback", className)}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -234,6 +249,7 @@ export function ClipReveal({
   className?: string;
 }) {
   const reduce = useReducedMotion();
+  const hydrated = useHydrated();
   return (
     <motion.div
       className={className}
@@ -242,7 +258,7 @@ export function ClipReveal({
       viewport={{ once: true, amount: 0.3 }}
     >
       <motion.div
-        className="h-full w-full"
+        className={cn("h-full w-full", !hydrated && "clip-reveal-fallback")}
         variants={{
           hidden: reduce ? {} : { clipPath: "inset(0 0 100% 0)" },
           show: {
