@@ -9,6 +9,7 @@ import { MotionProvider } from "@/components/motion/motion-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CartDrawer } from "@/components/cart/cart-drawer";
+import { FeedbackWidget } from "@/components/feedback/feedback-widget";
 import "../globals.css";
 
 const playfair = Playfair_Display({
@@ -88,6 +89,7 @@ export default async function LocaleLayout({
             <main>{children}</main>
             <Footer />
             <CartDrawer />
+            <FeedbackWidget />
           </CartProvider>
           </MotionProvider>
         </NextIntlClientProvider>

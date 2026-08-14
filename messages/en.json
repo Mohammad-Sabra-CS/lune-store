@@ -103,5 +103,18 @@
     "rights": "All rights reserved.",
     "explore": "Explore",
     "contact": "Contact"
+  },
+  "feedback": {
+    "tab": "Feedback",
+    "title": "Quick Feedback",
+    "description": "Share your thoughts to help us improve.",
+    "name": "Name (optional)",
+    "email": "Email (optional)",
+    "message": "Your feedback",
+    "submit": "Send Feedback",
+    "sending": "Sending…",
+    "thanks": "Thank you",
+    "thanksNote": "Your words help shape Lune.",
+    "error": "Please write a few words, then try again."
   }
 }

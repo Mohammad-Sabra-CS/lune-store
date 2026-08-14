@@ -1,8 +1,10 @@
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { listOrders } from "@/lib/orders";
+import { listFeedback } from "@/lib/feedback";
 import { Button } from "@/components/ui/button";
 import { LoginForm } from "./login-form";
 import { OrdersTable } from "./orders-table";
+import { FeedbackTable } from "./feedback-table";
 import { StatCards } from "./stat-cards";
 import { adminLogout } from "./actions";
 
@@ -13,7 +15,10 @@ export default async function AdminPage() {
     return <LoginForm />;
   }
 
-  const orders = await listOrders();
+  const [orders, feedbackItems] = await Promise.all([
+    listOrders(),
+    listFeedback(),
+  ]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -38,6 +43,10 @@ export default async function AdminPage() {
       </div>
       <StatCards orders={orders} />
       <OrdersTable orders={orders} />
+      <h2 className="mb-4 mt-10 text-xs uppercase tracking-[0.25em] text-gold-deep">
+        Feedback
+      </h2>
+      <FeedbackTable items={feedbackItems} />
     </div>
   );
 }

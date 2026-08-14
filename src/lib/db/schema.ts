@@ -29,6 +29,16 @@ export const orders = pgTable("orders", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const feedback = pgTable("feedback", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name"),
+  email: text("email"),
+  message: text("message").notNull(),
+  locale: varchar("locale", { length: 5 }).notNull().default("en"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export type OrderRow = typeof orders.$inferSelect;
 export type NewOrderRow = typeof orders.$inferInsert;
 export type OrderStatus = "new" | "delivered";
+export type FeedbackRow = typeof feedback.$inferSelect;
