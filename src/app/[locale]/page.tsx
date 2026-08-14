@@ -1,15 +1,12 @@
-import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { products } from "@/data/products";
 import { AuroraBackground } from "@/components/aurora";
 import {
-  ClipReveal,
   Float,
   HeroReveal,
   LineReveal,
-  Parallax,
   Reveal,
   RevealItem,
 } from "@/components/motion/primitives";
@@ -68,7 +65,7 @@ export default async function HomePage({
             </RevealItem>
           </HeroReveal>
 
-          <HeroReveal className="relative mx-auto w-full max-w-sm lg:max-w-none">
+          <HeroReveal className="order-first relative mx-auto w-full max-w-sm lg:order-none lg:max-w-none">
             <RevealItem y={32}>
               <HeroMedia />
             </RevealItem>
@@ -111,38 +108,19 @@ export default async function HomePage({
                   <span
                     aria-hidden
                     className={cn(
-                      "ghost-numeral absolute -top-16 hidden text-gold/30 lg:block",
-                      flip ? "start-0" : "end-0",
+                      "ghost-numeral absolute inset-x-0 -top-12 text-center text-gold/30",
+                      "lg:inset-x-auto lg:-top-16",
+                      flip ? "lg:start-0 lg:text-start" : "lg:end-0 lg:text-end",
                     )}
                   >
                     {ROMAN[i]}
                   </span>
-                  <div className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
-                    <ClipReveal className={cn(flip && "lg:order-2")}>
-                      <Parallax range={30} className="relative overflow-hidden">
-                        <Link
-                          href={`/product/${product.slug}`}
-                          className="group block"
-                        >
-                          <div className="relative aspect-[4/5] overflow-hidden bg-night sm:aspect-[5/4]">
-                            <Image
-                              src={product.image}
-                              alt={product.name}
-                              fill
-                              sizes="(max-width: 1024px) 90vw, 45vw"
-                              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                            />
-                          </div>
-                        </Link>
-                      </Parallax>
-                    </ClipReveal>
-
-                    <Reveal
-                      className={cn(
-                        "relative space-y-5 text-center",
-                        flip ? "lg:order-1 lg:text-end" : "lg:text-start",
-                      )}
-                    >
+                  <Reveal
+                    className={cn(
+                      "relative space-y-5 pt-16 text-center lg:pt-0",
+                      flip ? "lg:text-end" : "lg:text-start",
+                    )}
+                  >
                       <RevealItem>
                         <div
                           className={cn(
@@ -197,8 +175,7 @@ export default async function HomePage({
                           </Button>
                         </div>
                       </RevealItem>
-                    </Reveal>
-                  </div>
+                  </Reveal>
                 </article>
               );
             })}
@@ -253,26 +230,15 @@ export default async function HomePage({
       {/* ── Midnight: story ────────────────────────────────────── */}
       <section className="relative isolate overflow-hidden border-t border-moon/10 bg-night py-20 text-moon sm:py-28">
         <AuroraBackground intensity="subtle" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2">
-          <ClipReveal className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <Parallax range={24} className="relative aspect-[4/3] overflow-hidden border border-gold/25">
-              <Image
-                src="/products/set-men.jpg"
-                alt="Lune package"
-                fill
-                sizes="(max-width: 1024px) 90vw, 45vw"
-                className="object-cover"
-              />
-            </Parallax>
-          </ClipReveal>
-          <Reveal className="space-y-6 text-center lg:text-start">
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+          <Reveal className="mx-auto max-w-2xl space-y-6 text-center">
             <RevealItem>
               <h2 className="display-lg font-display text-balance leading-snug tracking-wide">
                 {t("storyTitle")}
               </h2>
             </RevealItem>
             <RevealItem>
-              <p className="mx-auto max-w-md leading-relaxed text-moon/75 lg:mx-0">
+              <p className="mx-auto max-w-md leading-relaxed text-moon/75">
                 {t("storyText")}
               </p>
             </RevealItem>
