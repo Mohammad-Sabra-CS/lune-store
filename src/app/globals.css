@@ -235,6 +235,12 @@
   [dir="rtl"] .display-lg {
     line-height: 1.25;
   }
+  /* Arabic eyebrows: 0.7rem is illegibly small for the Arabic faces, and
+     heavy tracking visually disconnects joined Arabic script */
+  [dir="rtl"] .eyebrow {
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+  }
   /* Arabic (Amiri / IBM Plex Sans Arabic) renders optically smaller than the
      Latin faces at equal px — bump the common body sizes for readability */
   [dir="rtl"] .text-xs {

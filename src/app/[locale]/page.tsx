@@ -14,6 +14,7 @@ import {
   RevealItem,
 } from "@/components/motion/primitives";
 import { Spotlight } from "@/components/motion/spotlight";
+import { HeroMedia } from "@/components/home/hero-media";
 import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -70,18 +71,7 @@ export default async function HomePage({
           <HeroReveal className="relative mx-auto w-full max-w-sm lg:max-w-none">
             <RevealItem y={32}>
               <Float amplitude={9} duration={7}>
-                <div className="relative aspect-[3/4] overflow-hidden border border-gold/25">
-                  <video
-                    src="/hero-loop.mp4"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    poster="/products/hero-marble.jpg"
-                    aria-label="Lune Eau de Parfum"
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                </div>
+                <HeroMedia />
               </Float>
             </RevealItem>
             <Float amplitude={6} duration={9} className="absolute -inset-8 -z-10">
