@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getProduct, products } from "@/data/products";
-import { routing } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
 import { ProductGallery } from "@/components/product/gallery";
 import { AddToCartButton } from "@/components/product/add-to-cart-button";
 import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
@@ -25,7 +25,7 @@ export async function generateMetadata({
   if (!product) return {};
   return {
     title: product.name,
-    description: product.description[locale as "en" | "ar"],
+    description: product.description[locale as Locale],
   };
 }
 
@@ -36,7 +36,7 @@ export default async function ProductPage({
 }) {
   const { locale: rawLocale, slug } = await params;
   setRequestLocale(rawLocale);
-  const locale = rawLocale as "en" | "ar";
+  const locale = rawLocale as Locale;
   const product = getProduct(slug);
   if (!product) notFound();
 

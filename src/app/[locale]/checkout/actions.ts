@@ -2,23 +2,37 @@
 
 import { z } from "zod";
 import { getProduct } from "@/data/products";
-import { DELIVERY_FEE } from "@/lib/constants";
+import { DELIVERY_FEE, MAX_QTY_PER_ITEM } from "@/lib/constants";
+import {
+  ADDRESS_MAX,
+  ADDRESS_MIN,
+  CITY_MAX,
+  CITY_MIN,
+  EMAIL_MAX,
+  EMAIL_RE,
+  NAME_MAX,
+  NAME_MIN,
+  PHONE_RE,
+} from "@/lib/checkout-validation";
+import { routing } from "@/i18n/routing";
 import { createOrder } from "@/lib/orders";
 import { sendReceiptEmail } from "@/lib/email/receipt";
 
 const checkoutSchema = z.object({
-  name: z.string().trim().min(2).max(120),
-  email: z.string().trim().email().max(200),
-  phone: z
-    .string()
-    .trim()
-    .regex(/^\+?[0-9\s-]{8,15}$/),
-  city: z.string().trim().min(2).max(80),
-  address: z.string().trim().min(4).max(300),
+  name: z.string().trim().min(NAME_MIN).max(NAME_MAX),
+  email: z.string().trim().regex(EMAIL_RE).max(EMAIL_MAX),
+  phone: z.string().trim().regex(PHONE_RE),
+  city: z.string().trim().min(CITY_MIN).max(CITY_MAX),
+  address: z.string().trim().min(ADDRESS_MIN).max(ADDRESS_MAX),
   paymentMethod: z.literal("cod"), // card is not accepted until a gateway is wired
-  locale: z.enum(["en", "ar"]),
+  locale: z.enum(routing.locales),
   items: z
-    .array(z.object({ slug: z.string(), qty: z.number().int().min(1).max(20) }))
+    .array(
+      z.object({
+        slug: z.string(),
+        qty: z.number().int().min(1).max(MAX_QTY_PER_ITEM),
+      }),
+    )
     .min(1)
     .max(10),
 });

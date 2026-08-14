@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { ADMIN_COOKIE, isAdminAuthenticated, tokenForPassword } from "@/lib/admin-auth";
 import { updateOrderStatus } from "@/lib/orders";
+import type { OrderStatus } from "@/lib/db/schema";
 
 export async function adminLogin(
   _prev: { error: boolean },
@@ -34,7 +35,7 @@ export async function adminLogout(): Promise<void> {
 
 export async function setOrderStatus(
   id: string,
-  status: "new" | "delivered",
+  status: OrderStatus,
 ): Promise<void> {
   if (!(await isAdminAuthenticated())) return;
   await updateOrderStatus(id, status);

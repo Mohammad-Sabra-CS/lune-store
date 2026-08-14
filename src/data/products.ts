@@ -1,4 +1,5 @@
 import { PACKAGE_PRICE } from "@/lib/constants";
+import type { Locale } from "@/i18n/routing";
 import type { MoonPhase } from "@/components/brand/moon-phase";
 
 export type Audience = "men" | "women";
@@ -15,9 +16,9 @@ export interface Product {
   /** Chapter phase — the four packages as four phases of one moon */
   phase: MoonPhase;
   /** One charming line, written (not translated) for each language */
-  poetry: { en: string; ar: string };
-  character: { en: string; ar: string };
-  description: { en: string; ar: string };
+  poetry: Record<Locale, string>;
+  character: Record<Locale, string>;
+  description: Record<Locale, string>;
   /** Accent used for subtle per-package theming */
   accent: "navy" | "wine" | "red";
 }

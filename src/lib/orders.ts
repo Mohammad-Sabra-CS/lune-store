@@ -1,6 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import { db, hasDatabase } from "@/lib/db";
-import { orders, type OrderRow } from "@/lib/db/schema";
+import { orders, type OrderRow, type OrderStatus } from "@/lib/db/schema";
+import type { Locale } from "@/i18n/routing";
 
 export interface OrderInput {
   orderNumber: string;
@@ -14,7 +15,7 @@ export interface OrderInput {
   deliveryFee: number;
   total: number;
   paymentMethod: "cod" | "card";
-  locale: "en" | "ar";
+  locale: Locale;
 }
 
 export type Order = OrderRow;
@@ -66,7 +67,7 @@ export async function listOrders(): Promise<Order[]> {
 
 export async function updateOrderStatus(
   id: string,
-  status: "new" | "delivered",
+  status: OrderStatus,
 ): Promise<void> {
   if (hasDatabase()) {
     await db().update(orders).set({ status }).where(eq(orders.id, id));

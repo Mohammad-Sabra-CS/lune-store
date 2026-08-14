@@ -12,16 +12,18 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/cart-context";
+import { CartEmpty } from "@/components/cart/cart-empty";
+import { CartTotals } from "@/components/cart/cart-totals";
 import { getProduct } from "@/data/products";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 import { AnimatedNumber } from "@/components/motion/animated-number";
-import { EASE, Float, HeroReveal, RevealItem } from "@/components/motion/primitives";
-import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
+import { EASE } from "@/components/motion/primitives";
 
 export function CartDrawer() {
   const t = useTranslations("cart");
   const tCommon = useTranslations("common");
-  const locale = useLocale() as "en" | "ar";
+  const locale = useLocale() as Locale;
   const cart = useCart();
 
   return (
@@ -46,25 +48,7 @@ export function CartDrawer() {
         </span>
 
         {cart.items.length === 0 ? (
-          <HeroReveal className="flex flex-1 flex-col items-center justify-center gap-5 px-6 text-center">
-            <RevealItem>
-              <Float amplitude={6} duration={5}>
-                <MoonPhaseGlyph phase="crescent" className="h-10 w-10 text-gold-deep" />
-              </Float>
-            </RevealItem>
-            <RevealItem>
-              <p className="font-display text-lg text-night/60">{t("empty")}</p>
-            </RevealItem>
-            <RevealItem>
-              <Button
-                render={<Link href="/shop" />}
-                className="rounded-none bg-night px-8 tracking-[0.2em] uppercase text-moon hover:bg-night-soft"
-                onClick={cart.closeCart}
-              >
-                {t("emptyCta")}
-              </Button>
-            </RevealItem>
-          </HeroReveal>
+          <CartEmpty glyph className="flex-1 px-6" onCtaClick={cart.closeCart} />
         ) : (
           <>
             <ul className="flex-1 divide-y divide-night/10 overflow-y-auto px-6">
@@ -160,26 +144,7 @@ export function CartDrawer() {
             </ul>
 
             <div className="space-y-4 border-t border-night/10 bg-ivory-deep/60 px-6 py-5">
-              <dl className="space-y-2 text-sm">
-                <div className="flex justify-between text-night/70">
-                  <dt>{t("subtotal")}</dt>
-                  <dd>
-                    <AnimatedNumber value={cart.subtotal} /> {tCommon("currency")}
-                  </dd>
-                </div>
-                <div className="flex justify-between text-night/70">
-                  <dt>{t("delivery")}</dt>
-                  <dd>
-                    <AnimatedNumber value={cart.deliveryFee} /> {tCommon("currency")}
-                  </dd>
-                </div>
-                <div className="flex justify-between border-t border-night/10 pt-2 text-base font-medium text-night">
-                  <dt>{t("total")}</dt>
-                  <dd>
-                    <AnimatedNumber value={cart.total} /> {tCommon("currency")}
-                  </dd>
-                </div>
-              </dl>
+              <CartTotals />
               <Button
                 render={<Link href="/checkout" />}
                 className="w-full rounded-none bg-night py-6 tracking-[0.25em] uppercase text-moon hover:bg-gold hover:text-night"

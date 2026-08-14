@@ -31,3 +31,4 @@ export const orders = pgTable("orders", {
 
 export type OrderRow = typeof orders.$inferSelect;
 export type NewOrderRow = typeof orders.$inferInsert;
+export type OrderStatus = "new" | "delivered";

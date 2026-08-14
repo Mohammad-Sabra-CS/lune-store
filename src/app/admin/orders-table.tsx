@@ -2,13 +2,14 @@
 
 import { useTransition } from "react";
 import type { Order } from "@/lib/orders";
+import type { OrderStatus } from "@/lib/db/schema";
 import { Button } from "@/components/ui/button";
 import { setOrderStatus } from "./actions";
 import { cn } from "@/lib/utils";
 
 function StatusButton({ order }: { order: Order }) {
   const [pending, startTransition] = useTransition();
-  const next = order.status === "new" ? "delivered" : "new";
+  const next: OrderStatus = order.status === "new" ? "delivered" : "new";
 
   return (
     <Button

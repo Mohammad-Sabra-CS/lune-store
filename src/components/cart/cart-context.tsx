@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { getProduct } from "@/data/products";
-import { DELIVERY_FEE } from "@/lib/constants";
+import { DELIVERY_FEE, MAX_QTY_PER_ITEM } from "@/lib/constants";
 
 export interface CartItem {
   slug: string;
@@ -64,7 +64,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const existing = prev.find((i) => i.slug === slug);
       if (existing) {
         return prev.map((i) =>
-          i.slug === slug ? { ...i, qty: Math.min(i.qty + 1, 20) } : i,
+          i.slug === slug ? { ...i, qty: Math.min(i.qty + 1, MAX_QTY_PER_ITEM) } : i,
         );
       }
       return [...prev, { slug, qty: 1 }];
@@ -79,7 +79,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems((prev) =>
       qty <= 0
         ? prev.filter((i) => i.slug !== slug)
-        : prev.map((i) => (i.slug === slug ? { ...i, qty: Math.min(qty, 20) } : i)),
+        : prev.map((i) =>
+            i.slug === slug ? { ...i, qty: Math.min(qty, MAX_QTY_PER_ITEM) } : i,
+          ),
     );
   }, []);
 

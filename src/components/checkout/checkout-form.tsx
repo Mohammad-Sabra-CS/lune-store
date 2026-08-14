@@ -5,13 +5,22 @@ import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { CreditCard, Banknote } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/components/cart/cart-context";
+import { CartEmpty } from "@/components/cart/cart-empty";
+import { CartTotals } from "@/components/cart/cart-totals";
 import { getProduct } from "@/data/products";
 import { placeOrder } from "@/app/[locale]/checkout/actions";
-import { AnimatedNumber } from "@/components/motion/animated-number";
+import {
+  ADDRESS_MIN,
+  CITY_MIN,
+  EMAIL_RE,
+  NAME_MIN,
+  PHONE_RE,
+} from "@/lib/checkout-validation";
 import { EASE, HeroReveal, RevealItem } from "@/components/motion/primitives";
 import { cn } from "@/lib/utils";
 
@@ -40,9 +49,8 @@ function FieldError({ children }: { children?: React.ReactNode }) {
 
 export function CheckoutForm() {
   const t = useTranslations("checkout");
-  const tCart = useTranslations("cart");
   const tCommon = useTranslations("common");
-  const locale = useLocale() as "en" | "ar";
+  const locale = useLocale() as Locale;
   const cart = useCart();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -50,17 +58,7 @@ export function CheckoutForm() {
   const [serverError, setServerError] = useState(false);
 
   if (cart.items.length === 0 && !isPending) {
-    return (
-      <div className="py-16 text-center">
-        <p className="font-display text-lg text-night/60">{tCart("empty")}</p>
-        <Button
-          className="mt-6 rounded-none bg-night px-8 tracking-[0.2em] uppercase text-moon hover:bg-night-soft"
-          onClick={() => router.push("/shop")}
-        >
-          {tCart("emptyCta")}
-        </Button>
-      </div>
-    );
+    return <CartEmpty className="py-16" />;
   }
 
   function validate(form: FormData): FieldErrors {
@@ -70,11 +68,11 @@ export function CheckoutForm() {
     const phone = String(form.get("phone") ?? "").trim();
     const city = String(form.get("city") ?? "").trim();
     const address = String(form.get("address") ?? "").trim();
-    if (name.length < 2) next.name = t("errRequired");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = t("errEmail");
-    if (!/^\+?[0-9\s-]{8,15}$/.test(phone)) next.phone = t("errPhone");
-    if (city.length < 2) next.city = t("errRequired");
-    if (address.length < 4) next.address = t("errRequired");
+    if (name.length < NAME_MIN) next.name = t("errRequired");
+    if (!EMAIL_RE.test(email)) next.email = t("errEmail");
+    if (!PHONE_RE.test(phone)) next.phone = t("errPhone");
+    if (city.length < CITY_MIN) next.city = t("errRequired");
+    if (address.length < ADDRESS_MIN) next.address = t("errRequired");
     return next;
   }
 
@@ -257,26 +255,7 @@ export function CheckoutForm() {
         </ul>
         </RevealItem>
         <RevealItem>
-        <dl className="space-y-2 border-t border-night/10 pt-4 text-sm">
-          <div className="flex justify-between text-night/70">
-            <dt>{tCart("subtotal")}</dt>
-            <dd>
-              <AnimatedNumber value={cart.subtotal} /> {tCommon("currency")}
-            </dd>
-          </div>
-          <div className="flex justify-between text-night/70">
-            <dt>{tCart("delivery")}</dt>
-            <dd>
-              <AnimatedNumber value={cart.deliveryFee} /> {tCommon("currency")}
-            </dd>
-          </div>
-          <div className="flex justify-between border-t border-night/10 pt-3 text-base font-medium text-night">
-            <dt>{tCart("total")}</dt>
-            <dd>
-              <AnimatedNumber value={cart.total} /> {tCommon("currency")}
-            </dd>
-          </div>
-        </dl>
+          <CartTotals className="border-t border-night/10 pt-4" totalClassName="pt-3" />
         </RevealItem>
         <AnimatePresence initial={false}>
           {serverError && (

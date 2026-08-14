@@ -1,6 +1,30 @@
 import type { OrderInput } from "@/lib/orders";
+import type { Locale } from "@/i18n/routing";
 
-const strings = {
+const strings: Record<
+  Locale,
+  {
+    subject: (n: string) => string;
+    title: string;
+    intro: string;
+    deliveryNote: string;
+    orderNumber: string;
+    item: string;
+    qty: string;
+    price: string;
+    subtotal: string;
+    delivery: string;
+    total: string;
+    deliverTo: string;
+    payment: string;
+    cod: string;
+    card: string;
+    currency: string;
+    motto: string;
+    dir: "ltr" | "rtl";
+    align: "left" | "right";
+  }
+> = {
   en: {
     subject: (n: string) => `Your Lune order ${n}`,
     title: "Thank you for your order",

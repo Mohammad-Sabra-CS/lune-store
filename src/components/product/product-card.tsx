@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 import type { Product } from "@/data/products";
 import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { cn } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
-  const locale = useLocale() as "en" | "ar";
+  const locale = useLocale() as Locale;
   const tCommon = useTranslations("common");
 
   return (

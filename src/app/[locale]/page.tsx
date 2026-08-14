@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 import { products } from "@/data/products";
 import { AuroraBackground } from "@/components/aurora";
 import {
@@ -26,7 +27,7 @@ export default async function HomePage({
 }) {
   const { locale: rawLocale } = await params;
   setRequestLocale(rawLocale);
-  const locale = rawLocale as "en" | "ar";
+  const locale = rawLocale as Locale;
   const t = await getTranslations("home");
   const tCommon = await getTranslations("common");
 
