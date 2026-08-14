@@ -64,7 +64,7 @@ export function CartDrawer() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.35, ease: EASE }}
-                      className="flex gap-4 py-5"
+                      className="flex gap-5 py-5"
                     >
                       <div className="relative h-24 w-20 shrink-0 overflow-hidden bg-night/5">
                         <Image
@@ -75,10 +75,10 @@ export function CartDrawer() {
                           className="object-cover"
                         />
                       </div>
-                      <div className="flex flex-1 flex-col justify-between py-0.5">
+                      <div className="flex min-w-0 flex-1 flex-col justify-between gap-3 py-0.5">
                         <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <p className="font-display tracking-[0.08em] uppercase text-night">
+                          <div className="min-w-0">
+                            <p className="truncate font-display tracking-[0.08em] uppercase text-night">
                               {product.name}
                             </p>
                             <p className="mt-0.5 text-xs text-night/65">
@@ -90,25 +90,25 @@ export function CartDrawer() {
                             whileTap={{ scale: 0.8 }}
                             onClick={() => cart.removeItem(item.slug)}
                             aria-label={t("remove")}
-                            className="-m-2 p-2 text-night/50 transition-colors hover:text-wine"
+                            className="-m-2 shrink-0 p-2 text-night/50 transition-colors hover:text-wine"
                           >
                             <X className="h-4 w-4" />
                           </motion.button>
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-4">
                           <div
-                            className="flex items-center border border-night/20"
+                            className="inline-flex shrink-0 items-center border border-night/20"
                             aria-label={t("quantity")}
                           >
                             <motion.button
                               type="button"
                               whileTap={{ scale: 0.85 }}
                               onClick={() => cart.setQty(item.slug, item.qty - 1)}
-                              className="flex h-11 w-11 items-center justify-center text-night/70 transition-colors hover:bg-night/5 sm:h-8 sm:w-8"
+                              className="flex h-10 w-10 items-center justify-center text-night/70 transition-colors hover:bg-night/5 sm:h-8 sm:w-8"
                             >
                               <Minus className="h-3.5 w-3.5" />
                             </motion.button>
-                            <span className="relative w-8 overflow-hidden text-center text-sm tabular-nums">
+                            <span className="relative w-7 overflow-hidden text-center text-sm tabular-nums">
                               <AnimatePresence mode="popLayout" initial={false}>
                                 <motion.span
                                   key={item.qty}
@@ -126,12 +126,12 @@ export function CartDrawer() {
                               type="button"
                               whileTap={{ scale: 0.85 }}
                               onClick={() => cart.setQty(item.slug, item.qty + 1)}
-                              className="flex h-11 w-11 items-center justify-center text-night/70 transition-colors hover:bg-night/5 sm:h-8 sm:w-8"
+                              className="flex h-10 w-10 items-center justify-center text-night/70 transition-colors hover:bg-night/5 sm:h-8 sm:w-8"
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </motion.button>
                           </div>
-                          <p className="text-sm font-medium text-night">
+                          <p className="shrink-0 whitespace-nowrap text-sm font-medium text-night">
                             <AnimatedNumber value={product.price * item.qty} />{" "}
                             {tCommon("currency")}
                           </p>
@@ -147,7 +147,7 @@ export function CartDrawer() {
               <CartTotals />
               <Button
                 render={<Link href="/checkout" />}
-                className="w-full rounded-none bg-night py-6 tracking-[0.25em] uppercase text-moon hover:bg-gold hover:text-night"
+                className="w-full rounded-none bg-gold py-6 tracking-[0.25em] uppercase text-night hover:bg-gold-bright"
                 onClick={cart.closeCart}
               >
                 {t("checkout")}

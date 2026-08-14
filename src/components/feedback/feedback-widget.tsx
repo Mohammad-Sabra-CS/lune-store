@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   Sheet,
@@ -21,6 +21,9 @@ import { submitFeedback } from "./actions";
 const inputClass =
   "rounded-none border-night/25 bg-card px-4 py-5 text-night focus-visible:border-gold focus-visible:ring-gold/40";
 
+/** Dispatched (e.g. by the mobile menu) to open the feedback sheet. */
+export const OPEN_FEEDBACK_EVENT = "lune:open-feedback";
+
 /** Fixed tab on the right edge of the screen that opens a quick-feedback
  *  sheet. Rendered site-wide from the locale layout. */
 export function FeedbackWidget() {
@@ -30,6 +33,12 @@ export function FeedbackWidget() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    const openSheet = () => setOpen(true);
+    window.addEventListener(OPEN_FEEDBACK_EVENT, openSheet);
+    return () => window.removeEventListener(OPEN_FEEDBACK_EVENT, openSheet);
+  }, []);
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,7 +75,7 @@ export function FeedbackWidget() {
         }
       }}
     >
-      <SheetTrigger className="fixed right-0 top-1/2 z-40 -translate-y-1/2 border border-r-0 border-gold-bright/70 bg-gold px-1.5 py-2.5 text-[0.55rem] uppercase tracking-[0.18em] text-night transition-colors hover:bg-gold-bright [writing-mode:vertical-rl] sm:px-2.5 sm:py-4 sm:text-[0.65rem] sm:tracking-[0.25em]">
+      <SheetTrigger className="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 border border-r-0 border-gold-bright/70 bg-gold px-2.5 py-4 text-[0.65rem] uppercase tracking-[0.25em] text-night transition-colors hover:bg-gold-bright [writing-mode:vertical-rl] sm:block">
         {t("tab")}
       </SheetTrigger>
       <SheetContent

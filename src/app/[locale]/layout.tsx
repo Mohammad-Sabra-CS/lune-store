@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -39,6 +39,11 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
+export const viewport: Viewport = {
+  colorScheme: "only light",
+  themeColor: "#0b0e17",
+};
 
 export async function generateMetadata({
   params,

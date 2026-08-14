@@ -17,10 +17,12 @@ import { useCart } from "@/components/cart/cart-context";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { LogoMark, LogoWordmark } from "@/components/brand/logo";
 import { MoonPhaseGlyph, type MoonPhase } from "@/components/brand/moon-phase";
-import { Float, HeroReveal, RevealItem } from "@/components/motion/primitives";
+import { AuroraBackground } from "@/components/aurora";
+import { HeroReveal, RevealItem } from "@/components/motion/primitives";
+import { OPEN_FEEDBACK_EVENT } from "@/components/feedback/feedback-widget";
 
 const rowClass =
-  "group flex w-full items-center gap-4 px-7 py-5 ps-7 font-display text-2xl uppercase tracking-[0.12em] text-moon transition-[padding,background-color,color] duration-300 hover:bg-moon/[0.04] hover:ps-9 hover:text-gold-bright active:scale-[0.99]";
+  "group flex w-full items-center gap-4 px-7 py-5 ps-7 font-sans text-sm font-medium uppercase tracking-[0.25em] text-moon transition-[padding,background-color,color] duration-300 hover:bg-moon/[0.04] hover:ps-9 hover:text-gold-bright active:scale-[0.99]";
 
 function RowLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -39,17 +41,16 @@ function RowGlyph({ phase }: { phase: MoonPhase }) {
   return (
     <MoonPhaseGlyph
       phase={phase}
-      className="h-5 w-5 text-gold/50 transition-colors duration-300 group-hover:text-gold"
+      className="h-4 w-4 text-gold/50 transition-colors duration-300 group-hover:text-gold"
     />
   );
 }
 
-/** Phone-only navigation drawer: a small piece of the night — starfield,
- *  drifting gold glow, staggered rows. EN opens from the left, AR from
- *  the right. */
+/** Phone-only navigation drawer over the brand's aurora night. EN opens
+ *  from the left, AR from the right — same side as the hamburger. */
 export function MobileMenu() {
   const t = useTranslations("nav");
-  const tCommon = useTranslations("common");
+  const tFeedback = useTranslations("feedback");
   const locale = useLocale() as Locale;
   const cart = useCart();
   const [open, setOpen] = useState(false);
@@ -72,17 +73,9 @@ export function MobileMenu() {
         showCloseButton={false}
         className="max-w-sm overflow-hidden border-e border-gold/25 bg-night p-0 text-moon shadow-2xl shadow-night/60 data-[side=left]:w-[85%] data-[side=right]:w-[85%]"
       >
-        {/* Night atmosphere behind the content */}
-        <div aria-hidden className="starfield absolute inset-0 opacity-50" />
-        <Float
-          amplitude={14}
-          duration={9}
-          className="pointer-events-none absolute -top-24 -end-24"
-        >
-          <div aria-hidden className="h-64 w-64 rounded-full bg-gold/10 blur-3xl" />
-        </Float>
+        <AuroraBackground intensity="subtle" className="z-0" />
 
-        <HeroReveal className="relative flex h-full flex-col">
+        <HeroReveal className="relative z-10 flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-moon/10 px-7 py-6">
             <SheetTitle className="m-0 p-0">
               <span className="flex items-center gap-2.5 text-gold">
@@ -141,20 +134,24 @@ export function MobileMenu() {
               </button>
             </RevealItem>
             <RevealItem>
+              <button
+                type="button"
+                className={rowClass}
+                onClick={() => {
+                  setOpen(false);
+                  window.dispatchEvent(new Event(OPEN_FEEDBACK_EVENT));
+                }}
+              >
+                <RowGlyph phase="full" />
+                <RowLabel>{tFeedback("tab")}</RowLabel>
+              </button>
+            </RevealItem>
+            <RevealItem>
               <div className="px-7 py-5">
-                <LocaleSwitcher className="h-auto rounded-none p-0 font-display text-2xl uppercase tracking-[0.12em] text-moon transition-colors duration-300 hover:bg-transparent hover:text-gold-bright" />
+                <LocaleSwitcher className="h-auto rounded-none p-0 font-sans text-sm font-medium uppercase tracking-[0.25em] text-moon transition-colors duration-300 hover:bg-transparent hover:text-gold-bright" />
               </div>
             </RevealItem>
           </nav>
-
-          <RevealItem className="mt-auto">
-            <div className="border-t border-moon/10 px-7 py-6">
-              <p className="eyebrow text-gold">{tCommon("tagline")}</p>
-              <p className="mt-2 text-xs leading-relaxed text-moon/40">
-                {tCommon("motto")}
-              </p>
-            </div>
-          </RevealItem>
         </HeroReveal>
       </SheetContent>
     </Sheet>

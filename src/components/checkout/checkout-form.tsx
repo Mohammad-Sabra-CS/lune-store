@@ -278,7 +278,7 @@ export function CheckoutForm() {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full rounded-none bg-night py-7 text-sm tracking-[0.25em] uppercase text-moon transition-colors hover:bg-gold hover:text-night"
+              className="w-full rounded-none bg-gold py-7 text-sm tracking-[0.25em] uppercase text-night transition-colors hover:bg-gold-bright"
             >
               {isPending ? t("placing") : t("placeOrder")}
             </Button>

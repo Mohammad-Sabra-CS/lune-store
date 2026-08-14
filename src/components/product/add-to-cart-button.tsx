@@ -9,7 +9,7 @@ import { EASE } from "@/components/motion/primitives";
 
 export function AddToCartButton({ slug }: { slug: string }) {
   const t = useTranslations("common");
-  const { addItem, openCart } = useCart();
+  const { addItem } = useCart();
   const [added, setAdded] = useState(false);
   const reduce = useReducedMotion();
 
@@ -28,15 +28,14 @@ export function AddToCartButton({ slug }: { slug: string }) {
     >
       <Button
         size="lg"
-        className="w-full rounded-none bg-night py-7 text-sm tracking-[0.3em] uppercase text-moon transition-colors duration-300 hover:bg-gold hover:text-night sm:w-auto sm:px-14"
+        className="w-full rounded-none bg-gold py-7 text-sm tracking-[0.3em] uppercase text-night transition-colors duration-300 hover:bg-gold-bright sm:w-auto sm:px-14"
         onClick={() => {
           if (added) return;
           addItem(slug);
           setAdded(true);
-          setTimeout(() => {
-            openCart();
-            setAdded(false);
-          }, 700);
+          // No auto-open: the header badge confirms the add; the customer
+          // opens the cart when they're ready to check out.
+          setTimeout(() => setAdded(false), 1400);
         }}
       >
         <AnimatePresence mode="wait" initial={false}>

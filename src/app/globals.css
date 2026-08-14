@@ -142,6 +142,9 @@
   }
   html {
     @apply font-sans scroll-smooth;
+    /* Opt out of Android Chrome's Auto Dark Theme force-darkening so the
+       brand palette renders identically on every device */
+    color-scheme: only light;
   }
   ::selection {
     background: #c4a15e;

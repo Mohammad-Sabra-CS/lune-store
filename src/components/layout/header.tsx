@@ -33,13 +33,18 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:h-[4.5rem] sm:px-6">
-        <Link
-          href="/"
-          className="group flex items-center gap-2.5 text-gold transition-colors hover:text-gold-bright"
-        >
-          <LogoMark className="h-9 w-9 transition-transform duration-500 group-hover:rotate-12" />
-          <LogoWordmark className="text-3xl text-moon" />
-        </Link>
+        <div className="flex items-center gap-1.5">
+          <div className="sm:hidden">
+            <MobileMenu />
+          </div>
+          <Link
+            href="/"
+            className="group flex items-center gap-2.5 text-gold transition-colors hover:text-gold-bright"
+          >
+            <LogoMark className="h-9 w-9 transition-transform duration-500 group-hover:rotate-12" />
+            <LogoWordmark className="text-3xl text-moon" />
+          </Link>
+        </div>
 
         <nav className="hidden items-center gap-8 text-sm tracking-wide sm:flex">
           <Link
@@ -77,9 +82,6 @@ export function Header() {
               </motion.span>
             )}
           </button>
-          <div className="sm:hidden">
-            <MobileMenu />
-          </div>
         </div>
       </div>
     </header>
