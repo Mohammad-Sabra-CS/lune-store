@@ -12,7 +12,8 @@ import { Label } from "@/components/ui/label";
 import { useCart } from "@/components/cart/cart-context";
 import { CartEmpty } from "@/components/cart/cart-empty";
 import { CartTotals } from "@/components/cart/cart-totals";
-import { getProduct } from "@/data/products";
+import { useProducts } from "@/components/product/products-context";
+import { effectivePrice } from "@/lib/pricing";
 import { placeOrder } from "@/app/[locale]/checkout/actions";
 import {
   ADDRESS_MIN,
@@ -52,10 +53,11 @@ export function CheckoutForm() {
   const tCommon = useTranslations("common");
   const locale = useLocale() as Locale;
   const cart = useCart();
+  const { getProduct } = useProducts();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [serverError, setServerError] = useState(false);
+  const [serverError, setServerError] = useState<"server" | "soldOut" | null>(null);
 
   if (cart.items.length === 0 && !isPending) {
     return <CartEmpty className="py-16" />;
@@ -81,7 +83,7 @@ export function CheckoutForm() {
     const form = new FormData(event.currentTarget);
     const fieldErrors = validate(form);
     setErrors(fieldErrors);
-    setServerError(false);
+    setServerError(null);
     if (Object.keys(fieldErrors).length > 0) return;
 
     startTransition(async () => {
@@ -98,8 +100,12 @@ export function CheckoutForm() {
       if (result.ok && result.orderNumber) {
         cart.clearCart();
         router.push(`/confirmation?order=${result.orderNumber}`);
+      } else if (result.error === "soldOut") {
+        setServerError("soldOut");
+        // Pull fresh stock so the cart prunes/clamps sold-out items
+        router.refresh();
       } else {
-        setServerError(true);
+        setServerError("server");
       }
     });
   }
@@ -247,7 +253,7 @@ export function CheckoutForm() {
                   {product.name} × {item.qty}
                 </span>
                 <span className="tabular-nums text-night">
-                  {product.price * item.qty} {tCommon("currency")}
+                  {effectivePrice(product).price * item.qty} {tCommon("currency")}
                 </span>
               </li>
             );
@@ -266,7 +272,7 @@ export function CheckoutForm() {
               transition={{ duration: 0.25, ease: EASE }}
               className="overflow-hidden border border-wine/40 bg-wine/5 p-3 text-xs text-wine"
             >
-              {t("errGeneric")}
+              {serverError === "soldOut" ? t("errSoldOut") : t("errGeneric")}
             </motion.p>
           )}
         </AnimatePresence>

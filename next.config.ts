@@ -9,6 +9,19 @@ const nextConfig: NextConfig = {
     // root layout ([locale] and admin each own <html>), which is exactly the
     // case app/global-not-found.tsx exists for.
     globalNotFound: true,
+    serverActions: {
+      // Admin image uploads go through a server action; the 1 MB default
+      // rejects any real product photo.
+      bodySizeLimit: "5mb",
+    },
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+      },
+    ],
   },
 };
 

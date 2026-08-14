@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getProduct, products } from "@/data/products";
+import { products } from "@/data/products";
+import { getStoreProducts } from "@/lib/products";
 import { routing, type Locale } from "@/i18n/routing";
 import { ProductGallery } from "@/components/product/gallery";
-import { AddToCartButton } from "@/components/product/add-to-cart-button";
+import { PurchasePanel } from "@/components/product/purchase-panel";
 import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
 import { HeroReveal, RevealItem } from "@/components/motion/primitives";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const product = getProduct(slug);
+  const product = (await getStoreProducts()).find((p) => p.slug === slug);
   if (!product) return {};
   return {
     title: product.name,
@@ -37,7 +38,7 @@ export default async function ProductPage({
   const { locale: rawLocale, slug } = await params;
   setRequestLocale(rawLocale);
   const locale = rawLocale as Locale;
-  const product = getProduct(slug);
+  const product = (await getStoreProducts()).find((p) => p.slug === slug);
   if (!product) notFound();
 
   const t = await getTranslations("product");
@@ -116,17 +117,7 @@ export default async function ProductPage({
           </RevealItem>
 
           <RevealItem>
-            <div className="space-y-5">
-              <div className="flex items-baseline gap-3">
-                <span className="font-display text-3xl tabular-nums text-night">
-                  {product.price} {tCommon("currency")}
-                </span>
-                <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  {t("packagePrice")}
-                </span>
-              </div>
-              <AddToCartButton slug={product.slug} />
-            </div>
+            <PurchasePanel slug={product.slug} />
           </RevealItem>
         </HeroReveal>
       </div>

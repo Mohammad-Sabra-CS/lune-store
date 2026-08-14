@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { products } from "@/data/products";
+import { getStoreProducts } from "@/lib/products";
 import { AuroraBackground } from "@/components/aurora";
 import {
   Float,
@@ -28,6 +28,7 @@ export default async function HomePage({
   const locale = rawLocale as Locale;
   const t = await getTranslations("home");
   const tCommon = await getTranslations("common");
+  const products = await getStoreProducts();
 
   return (
     <>

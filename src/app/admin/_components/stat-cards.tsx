@@ -1,15 +1,29 @@
 import type { Order } from "@/lib/orders";
+import type { StoreProduct } from "@/lib/products";
+import { isSoldOut } from "@/lib/pricing";
+import { cn } from "@/lib/utils";
 
-export function StatCards({ orders }: { orders: Order[] }) {
-  const delivered = orders.filter((o) => o.status === "delivered").length;
+export function StatCards({
+  orders,
+  products,
+}: {
+  orders: Order[];
+  products: StoreProduct[];
+}) {
   const newCount = orders.filter((o) => o.status === "new").length;
+  const delivered = orders.filter((o) => o.status === "delivered").length;
   const revenue = orders.reduce((sum, o) => sum + o.total, 0);
+  const soldOutCount = products.filter(isSoldOut).length;
 
-  const stats: { label: string; value: string; accent?: boolean }[] = [
-    { label: "Total orders", value: String(orders.length) },
-    { label: "New", value: String(newCount), accent: true },
+  const stats: { label: string; value: string; accent?: "gold" | "wine" }[] = [
+    { label: "New orders", value: String(newCount), accent: "gold" },
     { label: "Delivered", value: String(delivered) },
     { label: "Revenue", value: `${revenue} JD` },
+    {
+      label: "Sold out",
+      value: `${soldOutCount} / ${products.length}`,
+      accent: soldOutCount > 0 ? "wine" : undefined,
+    },
   ];
 
   return (
@@ -21,7 +35,13 @@ export function StatCards({ orders }: { orders: Order[] }) {
           style={{ animationDelay: `${i * 80}ms` }}
         >
           {stat.accent && (
-            <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-gold" />
+            <span
+              aria-hidden
+              className={cn(
+                "absolute inset-x-0 top-0 h-0.5",
+                stat.accent === "gold" ? "bg-gold" : "bg-wine",
+              )}
+            />
           )}
           <p className="text-xs uppercase tracking-wider text-muted-foreground">
             {stat.label}

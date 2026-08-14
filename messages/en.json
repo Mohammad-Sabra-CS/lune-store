@@ -4,6 +4,8 @@
     "tagline": "Lunar Allure",
     "motto": "Your Presence Is Complete With Love",
     "currency": "JD",
+    "soldOut": "Sold out",
+    "sale": "Sale",
     "addToCart": "Add to Cart",
     "added": "Added",
     "viewPackage": "View Package",
@@ -92,7 +94,8 @@
     "errRequired": "This field is required",
     "errEmail": "Enter a valid email address",
     "errPhone": "Enter a valid phone number",
-    "errGeneric": "Something went wrong. Please try again."
+    "errGeneric": "Something went wrong. Please try again.",
+    "errSoldOut": "Some items just sold out. Your cart has been updated."
   },
   "confirmation": {
     "title": "The night is yours",

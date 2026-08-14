@@ -1,7 +1,9 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { getProduct } from "@/data/products";
+import { getStoreProductsFresh, decrementStock, restoreStock } from "@/lib/products";
+import { effectivePrice, isSoldOut } from "@/lib/pricing";
 import { DELIVERY_FEE, MAX_QTY_PER_ITEM } from "@/lib/constants";
 import {
   ADDRESS_MAX,
@@ -40,7 +42,7 @@ const checkoutSchema = z.object({
 export interface CheckoutResult {
   ok: boolean;
   orderNumber?: string;
-  error?: "validation" | "server";
+  error?: "validation" | "server" | "soldOut";
 }
 
 function generateOrderNumber(): string {
@@ -60,19 +62,30 @@ export async function placeOrder(payload: unknown): Promise<CheckoutResult> {
   const data = parsed.data;
 
   // Price everything server-side — never trust client totals
+  const storeProducts = await getStoreProductsFresh();
   const items: { slug: string; name: string; qty: number; price: number }[] = [];
   for (const item of data.items) {
-    const product = getProduct(item.slug);
+    const product = storeProducts.find((p) => p.slug === item.slug);
     if (!product) return { ok: false, error: "validation" };
+    if (isSoldOut(product) || item.qty > product.stock) {
+      return { ok: false, error: "soldOut" };
+    }
     items.push({
       slug: product.slug,
       name: product.name,
       qty: item.qty,
-      price: product.price,
+      price: effectivePrice(product).price,
     });
   }
   const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
   const total = subtotal + DELIVERY_FEE;
+
+  // Reserve stock before recording the order (conditional decrement)
+  const stockItems = items.map((i) => ({ slug: i.slug, qty: i.qty }));
+  const dec = await decrementStock(stockItems);
+  if (!dec.ok) {
+    return { ok: false, error: "soldOut" };
+  }
 
   const orderInput = {
     orderNumber: generateOrderNumber(),
@@ -92,9 +105,11 @@ export async function placeOrder(payload: unknown): Promise<CheckoutResult> {
   try {
     const order = await createOrder(orderInput);
     await sendReceiptEmail(orderInput);
+    revalidateTag("products", "max"); // storefront picks up the new stock levels
     return { ok: true, orderNumber: order.orderNumber };
   } catch (err) {
     console.error("[checkout] failed to store order:", err);
+    await restoreStock(stockItems); // best-effort compensation
     return { ok: false, error: "server" };
   }
 }

@@ -1,52 +1,40 @@
+import Link from "next/link";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { listOrders } from "@/lib/orders";
-import { listFeedback } from "@/lib/feedback";
-import { Button } from "@/components/ui/button";
+import { listOrders, isArchived } from "@/lib/orders";
+import { getStoreProductsFresh } from "@/lib/products";
 import { LoginForm } from "./login-form";
-import { OrdersTable } from "./orders-table";
-import { FeedbackTable } from "./feedback-table";
-import { StatCards } from "./stat-cards";
-import { adminLogout } from "./actions";
+import { AdminShell } from "./_components/admin-shell";
+import { StatCards } from "./_components/stat-cards";
+import { OrdersTable } from "./_components/orders-table";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
+export default async function AdminDashboardPage() {
   if (!(await isAdminAuthenticated())) {
     return <LoginForm />;
   }
 
-  const [orders, feedbackItems] = await Promise.all([
+  const [orders, products] = await Promise.all([
     listOrders(),
-    listFeedback(),
+    getStoreProductsFresh(),
   ]);
+  const latest = orders.filter((o) => !isArchived(o)).slice(0, 5);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <div className="mb-8 flex items-center justify-between border-b border-night/10 pb-6">
-        <div>
-          <h1 className="font-display text-2xl uppercase tracking-[0.2em] text-night">
-            Lune
-          </h1>
-          <p className="mt-1 text-xs uppercase tracking-[0.25em] text-gold-deep">
-            Orders dashboard
-          </p>
-        </div>
-        <form action={adminLogout}>
-          <Button
-            type="submit"
-            variant="ghost"
-            className="rounded-none text-xs uppercase tracking-wider text-muted-foreground"
-          >
-            Sign out
-          </Button>
-        </form>
+    <AdminShell title="Dashboard" subtitle="Store overview">
+      <StatCards orders={orders} products={products} />
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xs uppercase tracking-[0.25em] text-gold-deep">
+          Latest orders
+        </h2>
+        <Link
+          href="/admin/orders"
+          className="text-xs uppercase tracking-wider text-night underline-offset-4 hover:underline"
+        >
+          View all
+        </Link>
       </div>
-      <StatCards orders={orders} />
-      <OrdersTable orders={orders} />
-      <h2 className="mb-4 mt-10 text-xs uppercase tracking-[0.25em] text-gold-deep">
-        Feedback
-      </h2>
-      <FeedbackTable items={feedbackItems} />
-    </div>
+      <OrdersTable orders={latest} />
+    </AdminShell>
   );
 }

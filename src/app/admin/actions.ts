@@ -23,14 +23,14 @@ export async function adminLogin(
     maxAge: 60 * 60 * 12,
     path: "/admin",
   });
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout"); // covers every admin page
   return { error: false };
 }
 
 export async function adminLogout(): Promise<void> {
   const store = await cookies();
   store.delete(ADMIN_COOKIE);
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }
 
 export async function setOrderStatus(
@@ -40,4 +40,5 @@ export async function setOrderStatus(
   if (!(await isAdminAuthenticated())) return;
   await updateOrderStatus(id, status);
   revalidatePath("/admin");
+  revalidatePath("/admin/orders");
 }

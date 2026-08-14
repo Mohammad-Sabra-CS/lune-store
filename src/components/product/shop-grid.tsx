@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
-import { products, type Audience } from "@/data/products";
+import type { Audience } from "@/data/products";
+import { useProducts } from "@/components/product/products-context";
 import { ProductCard } from "@/components/product/product-card";
 import { EASE } from "@/components/motion/primitives";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,7 @@ type Filter = "all" | Audience;
 
 export function ShopGrid() {
   const t = useTranslations("shop");
+  const { products } = useProducts();
   const [filter, setFilter] = useState<Filter>("all");
 
   const filtered =

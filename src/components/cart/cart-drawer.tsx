@@ -14,7 +14,8 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/cart-context";
 import { CartEmpty } from "@/components/cart/cart-empty";
 import { CartTotals } from "@/components/cart/cart-totals";
-import { getProduct } from "@/data/products";
+import { useProducts } from "@/components/product/products-context";
+import { effectivePrice } from "@/lib/pricing";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { AnimatedNumber } from "@/components/motion/animated-number";
@@ -25,6 +26,7 @@ export function CartDrawer() {
   const tCommon = useTranslations("common");
   const locale = useLocale() as Locale;
   const cart = useCart();
+  const { getProduct } = useProducts();
 
   return (
     <Sheet
@@ -132,7 +134,9 @@ export function CartDrawer() {
                             </motion.button>
                           </div>
                           <p className="shrink-0 whitespace-nowrap text-sm font-medium text-night">
-                            <AnimatedNumber value={product.price * item.qty} />{" "}
+                            <AnimatedNumber
+                              value={effectivePrice(product).price * item.qty}
+                            />{" "}
                             {tCommon("currency")}
                           </p>
                         </div>

@@ -5,7 +5,7 @@ import "../globals.css";
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 
 export const metadata: Metadata = {
-  title: "Lune — Orders",
+  title: "Lune — Admin",
   robots: { index: false, follow: false },
 };
 

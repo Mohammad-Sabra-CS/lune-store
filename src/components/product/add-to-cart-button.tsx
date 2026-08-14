@@ -5,13 +5,31 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/cart-context";
+import { useProducts } from "@/components/product/products-context";
+import { isSoldOut } from "@/lib/pricing";
 import { EASE } from "@/components/motion/primitives";
 
 export function AddToCartButton({ slug }: { slug: string }) {
   const t = useTranslations("common");
   const { addItem } = useCart();
+  const { getProduct } = useProducts();
   const [added, setAdded] = useState(false);
   const reduce = useReducedMotion();
+
+  const product = getProduct(slug);
+  const soldOut = !product || isSoldOut(product);
+
+  if (soldOut) {
+    return (
+      <Button
+        size="lg"
+        disabled
+        className="w-full rounded-none bg-night/10 py-7 text-sm tracking-[0.3em] uppercase text-night/50 sm:w-auto sm:px-14"
+      >
+        {t("soldOut")}
+      </Button>
+    );
+  }
 
   const swap = {
     initial: reduce ? { opacity: 0 } : { opacity: 0, y: 8 },

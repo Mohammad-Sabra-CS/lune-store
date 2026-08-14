@@ -41,6 +41,7 @@ yarn-error.log*
 next-env.d.ts
 .orders.dev.json
 .feedback.dev.json
+.products.dev.json
 
 .vercel
 .env*

@@ -4,6 +4,8 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Playfair_Display, Jost, Amiri, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { routing } from "@/i18n/routing";
+import { getStoreProducts } from "@/lib/products";
+import { ProductsProvider } from "@/components/product/products-context";
 import { CartProvider } from "@/components/cart/cart-context";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { Header } from "@/components/layout/header";
@@ -74,6 +76,8 @@ export default async function LocaleLayout({
   }
   setRequestLocale(locale);
 
+  const storeProducts = await getStoreProducts();
+
   return (
     <html
       lang={locale}
@@ -89,6 +93,7 @@ export default async function LocaleLayout({
       <body className="min-h-screen antialiased">
         <NextIntlClientProvider>
           <MotionProvider>
+          <ProductsProvider products={storeProducts}>
           <CartProvider>
             <Header />
             <main>{children}</main>
@@ -96,6 +101,7 @@ export default async function LocaleLayout({
             <CartDrawer />
             <FeedbackWidget />
           </CartProvider>
+          </ProductsProvider>
           </MotionProvider>
         </NextIntlClientProvider>
       </body>
