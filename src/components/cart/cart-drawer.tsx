@@ -48,7 +48,7 @@ export function CartDrawer() {
         </span>
 
         {cart.items.length === 0 ? (
-          <CartEmpty glyph className="flex-1 px-6" onCtaClick={cart.closeCart} />
+          <CartEmpty glyph showCta={false} className="flex-1 px-6" />
         ) : (
           <>
             <ul className="flex-1 divide-y divide-night/10 overflow-y-auto px-6">

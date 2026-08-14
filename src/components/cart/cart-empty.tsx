@@ -11,10 +11,12 @@ import { cn } from "@/lib/utils";
 export function CartEmpty({
   className,
   glyph = false,
+  showCta = true,
   onCtaClick,
 }: {
   className?: string;
   glyph?: boolean;
+  showCta?: boolean;
   onCtaClick?: () => void;
 }) {
   const t = useTranslations("cart");
@@ -36,15 +38,17 @@ export function CartEmpty({
       <RevealItem>
         <p className="font-display text-lg text-night/60">{t("empty")}</p>
       </RevealItem>
-      <RevealItem>
-        <Button
-          render={<Link href="/shop" />}
-          className="rounded-none bg-night px-8 tracking-[0.2em] uppercase text-moon hover:bg-night-soft"
-          onClick={onCtaClick}
-        >
-          {t("emptyCta")}
-        </Button>
-      </RevealItem>
+      {showCta && (
+        <RevealItem>
+          <Button
+            render={<Link href="/shop" />}
+            className="rounded-none bg-night px-8 tracking-[0.2em] uppercase text-moon hover:bg-night-soft"
+            onClick={onCtaClick}
+          >
+            {t("emptyCta")}
+          </Button>
+        </RevealItem>
+      )}
     </HeroReveal>
   );
 }

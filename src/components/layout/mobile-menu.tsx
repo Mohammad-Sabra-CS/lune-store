@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { useCart } from "@/components/cart/cart-context";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { LogoMark, LogoWordmark } from "@/components/brand/logo";
 import { MoonPhaseGlyph, type MoonPhase } from "@/components/brand/moon-phase";
@@ -52,7 +50,6 @@ export function MobileMenu() {
   const t = useTranslations("nav");
   const tFeedback = useTranslations("feedback");
   const locale = useLocale() as Locale;
-  const cart = useCart();
   const [open, setOpen] = useState(false);
 
   return (
@@ -62,11 +59,6 @@ export function MobileMenu() {
         className="relative flex h-10 w-10 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright"
       >
         <Menu className="h-5 w-5" />
-        {cart.count > 0 && (
-          <span className="absolute -top-0.5 -end-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[0.7rem] font-semibold text-night">
-            {cart.count}
-          </span>
-        )}
       </SheetTrigger>
       <SheetContent
         side={locale === "ar" ? "right" : "left"}
@@ -115,34 +107,10 @@ export function MobileMenu() {
                 className={rowClass}
                 onClick={() => {
                   setOpen(false);
-                  cart.openCart();
-                }}
-              >
-                <RowGlyph phase="gibbous" />
-                <RowLabel>{t("cart")}</RowLabel>
-                {cart.count > 0 && (
-                  <motion.span
-                    key={cart.count}
-                    initial={{ scale: 0.5 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 22 }}
-                    className="ms-auto flex h-6 min-w-6 items-center justify-center rounded-full bg-gold px-1.5 text-xs font-semibold tabular-nums text-night"
-                  >
-                    {cart.count}
-                  </motion.span>
-                )}
-              </button>
-            </RevealItem>
-            <RevealItem>
-              <button
-                type="button"
-                className={rowClass}
-                onClick={() => {
-                  setOpen(false);
                   window.dispatchEvent(new Event(OPEN_FEEDBACK_EVENT));
                 }}
               >
-                <RowGlyph phase="full" />
+                <RowGlyph phase="gibbous" />
                 <RowLabel>{tFeedback("tab")}</RowLabel>
               </button>
             </RevealItem>

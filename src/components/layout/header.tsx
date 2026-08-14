@@ -37,6 +37,25 @@ export function Header() {
           <div className="sm:hidden">
             <MobileMenu />
           </div>
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={t("openCart")}
+            className="relative flex h-10 w-10 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright sm:hidden"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            {count > 0 && (
+              <motion.span
+                key={count}
+                initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 22 }}
+                className="absolute -top-0.5 -end-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[0.7rem] font-semibold text-night"
+              >
+                {count}
+              </motion.span>
+            )}
+          </button>
           <Link
             href="/"
             className="group flex items-center gap-2.5 text-gold transition-colors hover:text-gold-bright"
