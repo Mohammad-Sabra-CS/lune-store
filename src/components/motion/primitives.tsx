@@ -221,7 +221,11 @@ export function Parallax({
   );
 }
 
-/** Image unveiled by a retracting clip — direction-neutral (top-down). */
+/** Image unveiled by a retracting clip — direction-neutral (top-down).
+ *  The observed element must stay un-clipped: a fully clipped element
+ *  reports 0% visibility to IntersectionObserver, so observing the clipped
+ *  node itself deadlocks (reveal never fires, lazy images never load).
+ *  Hence: outer div is watched, inner child carries the clip. */
 export function ClipReveal({
   children,
   className,
@@ -233,12 +237,22 @@ export function ClipReveal({
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { clipPath: "inset(0 0 100% 0)" }}
-      whileInView={{ clipPath: "inset(0 0 0% 0)" }}
+      initial="hidden"
+      whileInView="show"
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1.1, ease: EASE }}
     >
-      {children}
+      <motion.div
+        className="h-full w-full"
+        variants={{
+          hidden: reduce ? {} : { clipPath: "inset(0 0 100% 0)" },
+          show: {
+            clipPath: "inset(0 0 0% 0)",
+            transition: { duration: 1.1, ease: EASE },
+          },
+        }}
+      >
+        {children}
+      </motion.div>
     </motion.div>
   );
 }
