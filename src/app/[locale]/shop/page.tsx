@@ -38,16 +38,6 @@ export default async function ShopPage({
           <RevealItem>
             <p className="text-muted-foreground">{t("subtitle")}</p>
           </RevealItem>
-          <RevealItem>
-            <div className="mx-auto mt-6 max-w-xl border border-gold-deep/25 bg-card/70 px-5 py-4 text-center">
-              <p className="text-sm leading-relaxed text-night/80">
-                {t("bundleNote")}
-              </p>
-              <p className="mt-1.5 text-xs uppercase tracking-[0.18em] text-gold-deep">
-                {t("deliveryNote")}
-              </p>
-            </div>
-          </RevealItem>
         </HeroReveal>
         <ShopGrid />
       </div>

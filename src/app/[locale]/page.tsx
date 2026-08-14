@@ -163,9 +163,6 @@ export default async function HomePage({
                             flip ? "lg:justify-end" : "lg:justify-start",
                           )}
                         >
-                          <span className="font-display text-2xl tabular-nums text-night">
-                            {product.price} {tCommon("currency")}
-                          </span>
                           <Button
                             render={<Link href={`/product/${product.slug}`} />}
                             variant="outline"

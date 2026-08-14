@@ -41,14 +41,14 @@ export function ShopGrid() {
               className={cn(
                 "relative border px-6 py-2 text-xs uppercase tracking-[0.2em] transition-colors duration-300",
                 active
-                  ? "border-night text-moon"
-                  : "border-night/20 text-night/60 hover:border-night/50 hover:text-night",
+                  ? "border-gold text-night"
+                  : "border-night/20 text-night/60 hover:border-gold-deep hover:text-gold-deep",
               )}
             >
               {active && (
                 <motion.span
                   layoutId="shop-filter-pill"
-                  className="absolute inset-0 bg-night"
+                  className="absolute inset-0 bg-gold"
                   transition={{ type: "spring", stiffness: 380, damping: 34 }}
                 />
               )}
