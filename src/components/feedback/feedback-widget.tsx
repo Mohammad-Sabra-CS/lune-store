@@ -66,7 +66,7 @@ export function FeedbackWidget() {
         }
       }}
     >
-      <SheetTrigger className="fixed right-0 top-1/2 z-40 -translate-y-1/2 border border-r-0 border-gold-bright/70 bg-gold px-2.5 py-4 text-[0.65rem] uppercase tracking-[0.25em] text-night transition-colors hover:bg-gold-bright [writing-mode:vertical-rl]">
+      <SheetTrigger className="fixed right-0 top-1/2 z-40 -translate-y-1/2 border border-r-0 border-gold-bright/70 bg-gold px-1.5 py-2.5 text-[0.55rem] uppercase tracking-[0.18em] text-night transition-colors hover:bg-gold-bright [writing-mode:vertical-rl] sm:px-2.5 sm:py-4 sm:text-[0.65rem] sm:tracking-[0.25em]">
         {t("tab")}
       </SheetTrigger>
       <SheetContent
