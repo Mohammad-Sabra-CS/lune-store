@@ -34,7 +34,7 @@ export function CartDrawer() {
       {/* The panel itself keeps Base UI's CSS slide transitions — Motion only
           animates the contents inside. */}
       <SheetContent
-        side={locale === "ar" ? "left" : "right"}
+        side={locale === "ar" ? "right" : "left"}
         className="flex w-full flex-col gap-0 bg-ivory p-0 sm:max-w-md"
       >
         <SheetHeader className="border-b border-night/10 px-6 py-5">
