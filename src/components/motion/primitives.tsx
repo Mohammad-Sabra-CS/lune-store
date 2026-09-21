@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useHydrated } from "./browser-capabilities";
 import {
   motion,
   useReducedMotion,
@@ -19,11 +20,6 @@ export const EASE = [0.22, 1, 0.36, 1] as const;
  * runs, the fallback animation force-reveals the content at 2.5s instead of
  * leaving a blank page. Removed on mount so Motion owns the normal path.
  */
-function useHydrated() {
-  const [hydrated, setHydrated] = useState(false);
-  useEffect(() => setHydrated(true), []);
-  return hydrated;
-}
 
 /**
  * Direction-aware x helper. Horizontal motion must go through dx() so it
@@ -146,7 +142,11 @@ export function LineReveal({
       <motion.span
         className={cn("block", !hydrated && "reveal-fallback")}
         {...(standalone
-          ? { initial: reduce ? false : hidden, whileInView: show, viewport: { once: true, amount: 0.6 } }
+          ? {
+              initial: reduce ? false : hidden,
+              whileInView: show,
+              viewport: { once: true, amount: 0.6 },
+            }
           : { variants: { hidden, show } })}
       >
         {children}

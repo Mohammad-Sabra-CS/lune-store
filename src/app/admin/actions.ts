@@ -1,8 +1,13 @@
 "use server";
 
+import { z } from "zod";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { ADMIN_COOKIE, isAdminAuthenticated, tokenForPassword } from "@/lib/admin-auth";
+import {
+  ADMIN_COOKIE,
+  isAdminAuthenticated,
+  tokenForPassword,
+} from "@/lib/admin-auth";
 import { updateOrderStatus } from "@/lib/orders";
 import type { OrderStatus } from "@/lib/db/schema";
 
@@ -29,7 +34,13 @@ export async function adminLogin(
 
 export async function adminLogout(): Promise<void> {
   const store = await cookies();
-  store.delete(ADMIN_COOKIE);
+  store.set(ADMIN_COOKIE, "", {
+    path: "/admin",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 0,
+  });
   revalidatePath("/admin", "layout");
 }
 
@@ -37,8 +48,12 @@ export async function setOrderStatus(
   id: string,
   status: OrderStatus,
 ): Promise<void> {
-  if (!(await isAdminAuthenticated())) return;
-  await updateOrderStatus(id, status);
+  if (!(await isAdminAuthenticated())) throw new Error("UNAUTHORIZED");
+  const parsed = z
+    .object({ id: z.uuid(), status: z.enum(["new", "delivered"]) })
+    .safeParse({ id, status });
+  if (!parsed.success) throw new Error("INVALID_ORDER_STATUS");
+  await updateOrderStatus(parsed.data.id, parsed.data.status);
   revalidatePath("/admin");
   revalidatePath("/admin/orders");
 }

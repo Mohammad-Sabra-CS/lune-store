@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import type { Order } from "@/lib/orders";
 import type { OrderStatus } from "@/lib/db/schema";
 import { ARCHIVE_AFTER_DAYS } from "@/lib/constants";
@@ -10,7 +10,13 @@ import { cn } from "@/lib/utils";
 
 const STATUS_META: Record<
   OrderStatus,
-  { pill: string; dot: string; next: OrderStatus; nextLabel: string; button: string }
+  {
+    pill: string;
+    dot: string;
+    next: OrderStatus;
+    nextLabel: string;
+    button: string;
+  }
 > = {
   new: {
     pill: "bg-gold/20 text-night",
@@ -30,25 +36,45 @@ const STATUS_META: Record<
 
 function StatusButton({ order }: { order: Order }) {
   const [pending, startTransition] = useTransition();
+  const [error, setError] = useState(false);
   const meta = STATUS_META[order.status as OrderStatus] ?? STATUS_META.new;
 
   return (
-    <Button
-      size="sm"
-      variant="outline"
-      disabled={pending}
-      onClick={() => startTransition(() => setOrderStatus(order.id, meta.next))}
-      className={cn("rounded-none text-xs uppercase tracking-wider", meta.button)}
-    >
-      {pending ? (
-        <span
-          aria-label="Saving"
-          className="inline-block h-3 w-3 animate-spin rounded-full border border-night/30 border-t-night"
-        />
-      ) : (
-        meta.nextLabel
+    <div>
+      <Button
+        size="sm"
+        variant="outline"
+        disabled={pending}
+        onClick={() =>
+          startTransition(async () => {
+            setError(false);
+            try {
+              await setOrderStatus(order.id, meta.next);
+            } catch {
+              setError(true);
+            }
+          })
+        }
+        className={cn(
+          "rounded-none text-xs uppercase tracking-wider",
+          meta.button,
+        )}
+      >
+        {pending ? (
+          <span
+            aria-label="Saving"
+            className="inline-block h-3 w-3 animate-spin rounded-full border border-night/30 border-t-night"
+          />
+        ) : (
+          meta.nextLabel
+        )}
+      </Button>
+      {error && (
+        <p role="alert" className="mt-2 max-w-48 text-xs text-wine">
+          Unable to save. Refresh the page and sign in again if needed.
+        </p>
       )}
-    </Button>
+    </div>
   );
 }
 
@@ -94,7 +120,8 @@ export function OrdersTable({
         </thead>
         <tbody className="divide-y divide-night/10">
           {orders.map((order) => {
-            const meta = STATUS_META[order.status as OrderStatus] ?? STATUS_META.new;
+            const meta =
+              STATUS_META[order.status as OrderStatus] ?? STATUS_META.new;
             const archivesOn = archiveDate(order);
             return (
               <tr

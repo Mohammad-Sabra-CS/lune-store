@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useFinePointer } from "./browser-capabilities";
 import {
   motion,
   useMotionTemplate,
@@ -15,15 +16,7 @@ import { cn } from "@/lib/utils";
  */
 export function Spotlight({ className }: { className?: string }) {
   const reduce = useReducedMotion();
-  const [finePointer, setFinePointer] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    setFinePointer(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setFinePointer(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
+  const finePointer = useFinePointer();
 
   const x = useSpring(55, { stiffness: 40, damping: 18 });
   const y = useSpring(30, { stiffness: 40, damping: 18 });

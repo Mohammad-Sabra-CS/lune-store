@@ -11,38 +11,63 @@
     "viewPackage": "View Package",
     "men": "For Him",
     "women": "For Her",
-    "chapter": "Chapter"
+    "chapter": "Chapter",
+    "completeSet": "Eau de parfum · Mist · Oil",
+    "close": "Close",
+    "viewCart": "View cart",
+    "continueShopping": "Continue shopping",
+    "skipToContent": "Skip to content",
+    "addedToCart": "{name} added to your cart"
   },
   "nav": {
     "home": "Home",
     "shop": "Shop",
     "about": "Our Story",
     "cart": "Cart",
-    "openCart": "Open cart",
+    "openCart": "Open cart, {count} items",
     "menu": "Menu",
     "openMenu": "Open menu",
     "switchLocale": "العربية"
   },
   "home": {
-    "heroKicker": "Lunar Allure — Amman",
-    "heroTitleA": "The night,",
-    "heroTitleB": "bottled.",
-    "heroSubtitle": "Four compositions drawn from the dark hours — an eau de parfum, a body mist and a perfume oil in every box, worn from first light to last whisper.",
-    "heroCta": "Begin the Night",
-    "chapters": "Four Phases of One Moon",
-    "chaptersSubtitle": "Two for him. Two for her.",
+    "heroKicker": "Lunar Allure · Amman, Jordan",
+    "heroTitleA": "Wear",
+    "heroTitleB": "the night.",
+    "heroSubtitle": "A fragrance for every side of you. Discover four signature compositions, each in a complete three-piece collection.",
+    "heroCta": "Discover the collection",
+    "chapters": "The collection",
+    "chaptersSubtitle": "Two for him. Two for her. Find the one that feels like you.",
     "chapterCta": "Discover",
-    "ritualTitle": "One box. Three acts.",
-    "ritualSubtitle": "Every Lune package is a small ceremony.",
+    "ritualTitle": "One box. Three ways to leave an impression.",
+    "ritualSubtitle": "The Lune ritual",
     "ritualAct1Name": "Eau de Parfum",
     "ritualAct1Line": "The statement — worn where the evening begins.",
     "ritualAct2Name": "Body Mist",
     "ritualAct2Line": "The veil — a whisper for the in-between hours.",
     "ritualAct3Name": "Perfume Oil",
     "ritualAct3Line": "The seal — kept for the moments that matter.",
-    "storyTitle": "Your presence is complete with love",
-    "storyText": "Lune is a Jordanian house of fragrance, composed under a patient moon. Every box holds a small ceremony — parfum, mist and oil — layered so the night never quite lets go of you.",
-    "storyCta": "Shop the Collections"
+    "storyTitle": "Your presence is complete with love.",
+    "storyText": "From Amman, Lune brings together fragrance and the quiet allure of the night. Four compositions, each with its own character. An eau de parfum, a body mist and a perfume oil, brought together in one considered collection.",
+    "storyCta": "Explore Lune",
+    "scrollHint": "Scroll to discover",
+    "collectionKicker": "A collection of worlds, bottled",
+    "viewAll": "Explore all",
+    "trustCod": "Cash on delivery",
+    "trustDelivery": "Delivery · {fee} {currency}",
+    "trustSet": "Three essentials in every box",
+    "ritualImageAlt": "Lune burgundy gift box with perfume, body mist and perfume oil",
+    "worldKicker": "Find your world",
+    "worldTitle": "What does your night feel like?",
+    "worldSubtitle": "Fresh and free, warm and magnetic, or softly unforgettable. Follow your feeling.",
+    "worlds": {
+      "apollo": "Warm & magnetic",
+      "orion": "Fresh & free",
+      "elysia": "Soft & enchanting",
+      "aurora": "Bold & radiant"
+    },
+    "storyKicker": "The story of Lune",
+    "followInstagram": "Follow Lune on Instagram",
+    "finalTitle": "Find your world."
   },
   "shop": {
     "title": "The Collections",
@@ -60,7 +85,9 @@
     "character": "The Character",
     "packagePrice": "Complete package",
     "notFound": "Package not found",
-    "galleryImageLabel": "View {name} image {index}"
+    "galleryImageLabel": "View {name} image {index}",
+    "galleryLabel": "{name} photographs",
+    "deliveryNote": "Delivery {fee} {currency} · Cash on delivery"
   },
   "cart": {
     "title": "Your Cart",
@@ -72,13 +99,17 @@
     "checkout": "Checkout",
     "remove": "Remove",
     "quantity": "Quantity",
-    "updated": "Cart updated"
+    "updated": "Cart updated",
+    "increase": "Increase {name} quantity",
+    "decrease": "Decrease {name} quantity",
+    "removeProduct": "Remove {name}",
+    "quantityChanged": "{name}: quantity {qty}"
   },
   "checkout": {
     "title": "Checkout",
     "contactTitle": "Your Details",
     "name": "Full name",
-    "email": "Email",
+    "email": "Email (optional)",
     "phone": "Phone number",
     "deliveryTitle": "Delivery Address",
     "city": "City",
@@ -95,19 +126,29 @@
     "errEmail": "Enter a valid email address",
     "errPhone": "Enter a valid phone number",
     "errGeneric": "Something went wrong. Please try again.",
-    "errSoldOut": "Some items just sold out. Your cart has been updated."
+    "errSoldOut": "Some items just sold out. Your cart has been updated.",
+    "emailHint": "For an order receipt, when email delivery is available.",
+    "errPriceChanged": "The price changed. Review the updated total, then place your order again.",
+    "errTooLong": "Please shorten this field.",
+    "errValidation": "Please check your details and try again.",
+    "emptyHint": "Add a collection to begin.",
+    "loadingCart": "Loading your cart…"
   },
   "confirmation": {
     "title": "The night is yours",
     "subtitle": "Your order is safely with us. We will be in touch to confirm your delivery.",
     "orderNumber": "Order number",
-    "emailNote": "A receipt has been sent to your email.",
-    "backHome": "Back to Home"
+    "emailNote": "Keep your order number for reference. We will contact you to confirm delivery.",
+    "backHome": "Back to Home",
+    "invalidTitle": "Your Lune order",
+    "invalidSubtitle": "There is no order reference here. Return to the shop to continue."
   },
   "footer": {
     "rights": "All rights reserved.",
     "explore": "Explore",
-    "contact": "Contact"
+    "contact": "Contact",
+    "location": "Amman, Jordan",
+    "instagram": "Instagram"
   },
   "feedback": {
     "tab": "Feedback",

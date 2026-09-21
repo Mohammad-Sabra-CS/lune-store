@@ -28,7 +28,8 @@ const strings: Record<
   en: {
     subject: (n: string) => `Your Lune order ${n}`,
     title: "Thank you for your order",
-    intro: "We have received your order and will contact you to confirm delivery.",
+    intro:
+      "We have received your order and will contact you to confirm delivery.",
     deliveryNote: "Your order will be delivered within 2 days.",
     orderNumber: "Order number",
     item: "Item",
@@ -69,6 +70,16 @@ const strings: Record<
   },
 };
 
+export function escapeHtml(value: string): string {
+  return value.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        char
+      ]!,
+  );
+}
+
 export function buildReceiptHtml(order: OrderInput): {
   subject: string;
   html: string;
@@ -78,7 +89,7 @@ export function buildReceiptHtml(order: OrderInput): {
     .map(
       (item) => `
         <tr>
-          <td style="padding:10px 0;border-bottom:1px solid #eee6d4;color:#0b0e17;">${item.name}</td>
+          <td style="padding:10px 0;border-bottom:1px solid #eee6d4;color:#0b0e17;">${escapeHtml(item.name)}</td>
           <td style="padding:10px 0;border-bottom:1px solid #eee6d4;text-align:center;color:#0b0e17;">${item.qty}</td>
           <td style="padding:10px 0;border-bottom:1px solid #eee6d4;text-align:${t.dir === "rtl" ? "left" : "right"};color:#0b0e17;">${item.price * item.qty} ${t.currency}</td>
         </tr>`,
@@ -99,7 +110,7 @@ export function buildReceiptHtml(order: OrderInput): {
       <p style="margin:0 0 20px;padding:10px 14px;background:#c4a15e1f;border-${t.dir === "rtl" ? "right" : "left"}:3px solid #c4a15e;color:#0b0e17;font-size:14px;">${t.deliveryNote}</p>
       <p style="margin:0 0 24px;color:#0b0e17;font-size:14px;">
         <strong>${t.orderNumber}:</strong>
-        <span style="color:#c4a15e;letter-spacing:1px;" dir="ltr">${order.orderNumber}</span>
+        <span style="color:#c4a15e;letter-spacing:1px;" dir="ltr">${escapeHtml(order.orderNumber)}</span>
       </p>
       <table style="width:100%;border-collapse:collapse;font-size:14px;" dir="${t.dir}">
         <thead>
@@ -126,7 +137,7 @@ export function buildReceiptHtml(order: OrderInput): {
         </tr>
       </table>
       <div style="margin-top:28px;padding-top:20px;border-top:1px solid #eee6d4;font-size:13px;color:#6b6553;line-height:1.7;">
-        <p style="margin:0;"><strong style="color:#0b0e17;">${t.deliverTo}:</strong> ${order.customerName} — ${order.city}, ${order.address}</p>
+        <p style="margin:0;"><strong style="color:#0b0e17;">${t.deliverTo}:</strong> ${escapeHtml(order.customerName)} — ${escapeHtml(order.city)}, ${escapeHtml(order.address)}</p>
         <p style="margin:6px 0 0;"><strong style="color:#0b0e17;">${t.payment}:</strong> ${order.paymentMethod === "cod" ? t.cod : t.card}</p>
       </div>
     </div>
@@ -140,20 +151,16 @@ export function buildReceiptHtml(order: OrderInput): {
 
 /**
  * Sends the receipt. Never throws — an email failure must not fail the order.
- * Without RESEND_API_KEY (local dev), logs instead of sending.
+ * Without RESEND_API_KEY or a customer email, skips sending.
  */
 export async function sendReceiptEmail(order: OrderInput): Promise<void> {
-  const { subject, html } = buildReceiptHtml(order);
+  if (!order.email) return;
   const apiKey = process.env.RESEND_API_KEY;
 
-  if (!apiKey) {
-    console.log(
-      `[email] RESEND_API_KEY not set — receipt for ${order.orderNumber} to ${order.email} not sent (subject: "${subject}")`,
-    );
-    return;
-  }
+  if (!apiKey) return;
 
   try {
+    const { subject, html } = buildReceiptHtml(order);
     const { Resend } = await import("resend");
     const resend = new Resend(apiKey);
     const from = process.env.EMAIL_FROM ?? "Lune <onboarding@resend.dev>";
@@ -164,9 +171,13 @@ export async function sendReceiptEmail(order: OrderInput): Promise<void> {
       html,
     });
     if (error) {
-      console.error(`[email] failed for ${order.orderNumber}:`, error);
+      console.error("[email] receipt rejected", {
+        orderNumber: order.orderNumber,
+      });
     }
-  } catch (err) {
-    console.error(`[email] failed for ${order.orderNumber}:`, err);
+  } catch {
+    console.error("[email] receipt delivery failed", {
+      orderNumber: order.orderNumber,
+    });
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useFinePointer } from "./browser-capabilities";
 import {
   motion,
   useMotionTemplate,
@@ -25,15 +25,7 @@ export function TiltCard({
   maxTilt?: number;
 }) {
   const reduce = useReducedMotion();
-  const [finePointer, setFinePointer] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    setFinePointer(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setFinePointer(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
+  const finePointer = useFinePointer();
 
   const spring = { stiffness: 150, damping: 20 };
   const rotateX = useSpring(0, spring);
@@ -67,9 +59,7 @@ export function TiltCard({
     <motion.div
       className={cn("relative", className)}
       style={
-        active
-          ? { rotateX, rotateY, transformPerspective: 900 }
-          : undefined
+        active ? { rotateX, rotateY, transformPerspective: 900 } : undefined
       }
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}

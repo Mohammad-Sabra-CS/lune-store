@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Float, HeroReveal, RevealItem } from "@/components/motion/primitives";
 import { MoonPhaseGlyph } from "@/components/brand/moon-phase";
 import { cn } from "@/lib/utils";
@@ -31,7 +31,10 @@ export function CartEmpty({
       {glyph && (
         <RevealItem>
           <Float amplitude={6} duration={5}>
-            <MoonPhaseGlyph phase="crescent" className="h-10 w-10 text-gold-deep" />
+            <MoonPhaseGlyph
+              phase="crescent"
+              className="h-10 w-10 text-gold-deep"
+            />
           </Float>
         </RevealItem>
       )}
@@ -40,13 +43,16 @@ export function CartEmpty({
       </RevealItem>
       {showCta && (
         <RevealItem>
-          <Button
-            render={<Link href="/shop" />}
-            className="rounded-none bg-night px-8 tracking-[0.2em] uppercase text-moon hover:bg-night-soft"
+          <Link
+            href="/shop"
+            className={cn(
+              buttonVariants(),
+              "min-h-11 rounded-none bg-night px-8 tracking-[0.2em] uppercase text-moon hover:bg-night-soft",
+            )}
             onClick={onCtaClick}
           >
             {t("emptyCta")}
-          </Button>
+          </Link>
         </RevealItem>
       )}
     </HeroReveal>

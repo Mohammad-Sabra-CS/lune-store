@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useProducts } from "@/components/product/products-context";
 import { effectivePrice, isSoldOut } from "@/lib/pricing";
+import { DELIVERY_FEE } from "@/lib/constants";
 import { AddToCartButton } from "@/components/product/add-to-cart-button";
 
 /**
@@ -24,7 +25,7 @@ export function PurchasePanel({ slug }: { slug: string }) {
     <div className="space-y-5">
       <div className="flex flex-wrap items-baseline gap-3">
         {showSale && (
-          <s className="font-display text-xl tabular-nums text-night/40">
+          <s className="font-display text-xl tabular-nums text-night/65">
             {basePrice} {tCommon("currency")}
           </s>
         )}
@@ -40,6 +41,12 @@ export function PurchasePanel({ slug }: { slug: string }) {
           {t("packagePrice")}
         </span>
       </div>
+      <p className="text-sm text-night/70">
+        {t("deliveryNote", {
+          fee: DELIVERY_FEE,
+          currency: tCommon("currency"),
+        })}
+      </p>
       <AddToCartButton slug={slug} />
     </div>
   );

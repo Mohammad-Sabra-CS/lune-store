@@ -1,5 +1,10 @@
+import { resolveApprovedCopy } from "@/data/approved-copy";
 import { and, eq, gte, sql } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
+import {
+  resolveProductImage,
+  resolveProductGallery,
+} from "@/lib/product-media";
 import { db, hasDatabase } from "@/lib/db";
 import {
   products as productsTable,
@@ -80,7 +85,7 @@ function devDefaultRow(p: Product): DevRow {
 
 /** Insert rows for any static product that has no row yet. Idempotent and
  *  race-safe (concurrent build workers may seed simultaneously). */
-async function ensureSeeded(): Promise<void> {
+async function seedMissingProducts(): Promise<void> {
   if (hasDatabase()) {
     await db()
       .insert(productsTable)
@@ -94,6 +99,16 @@ async function ensureSeeded(): Promise<void> {
   if (missing.length > 0) {
     await devWrite([...all, ...missing.map(devDefaultRow)]);
   }
+}
+
+// One seed attempt per process, retryable after failures; reads stay read-only.
+let seedPromise: Promise<void> | undefined;
+function ensureSeeded(): Promise<void> {
+  seedPromise ??= seedMissingProducts().catch((error) => {
+    seedPromise = undefined;
+    throw error;
+  });
+  return seedPromise;
 }
 
 function toIso(value: Date | string | null): string | null {
@@ -117,11 +132,11 @@ function merge(p: Product, row: ProductRow | DevRow): StoreProduct {
     ...p,
     name: row.name,
     price: row.basePrice,
-    image: row.image,
-    gallery: row.gallery,
+    image: resolveProductImage(row.image),
+    gallery: resolveProductGallery(row.gallery),
     poetry: row.poetry,
-    character: row.character,
-    description: row.description,
+    character: resolveApprovedCopy(p.slug, "character", row.character),
+    description: resolveApprovedCopy(p.slug, "description", row.description),
     salePrice: row.salePrice,
     saleStartsAt: toIso(row.saleStartsAt),
     saleEndsAt: toIso(row.saleEndsAt),
@@ -171,9 +186,13 @@ async function updateRow(
     Object.assign(target, {
       ...patch,
       saleStartsAt:
-        "saleStartsAt" in patch ? toIso(patch.saleStartsAt ?? null) : target.saleStartsAt,
+        "saleStartsAt" in patch
+          ? toIso(patch.saleStartsAt ?? null)
+          : target.saleStartsAt,
       saleEndsAt:
-        "saleEndsAt" in patch ? toIso(patch.saleEndsAt ?? null) : target.saleEndsAt,
+        "saleEndsAt" in patch
+          ? toIso(patch.saleEndsAt ?? null)
+          : target.saleEndsAt,
       updatedAt: new Date().toISOString(),
     });
     await devWrite(all);
@@ -204,7 +223,10 @@ export async function updateProductPricing(
   await updateRow(slug, patch);
 }
 
-export async function updateProductStock(slug: string, stock: number): Promise<void> {
+export async function updateProductStock(
+  slug: string,
+  stock: number,
+): Promise<void> {
   await updateRow(slug, { stock });
 }
 
@@ -232,7 +254,10 @@ export async function decrementStock(
         .update(productsTable)
         .set({ stock: sql`${productsTable.stock} - ${item.qty}` })
         .where(
-          and(eq(productsTable.slug, item.slug), gte(productsTable.stock, item.qty)),
+          and(
+            eq(productsTable.slug, item.slug),
+            gte(productsTable.stock, item.qty),
+          ),
         )
         .returning({ slug: productsTable.slug });
       if (res.length === 0) {

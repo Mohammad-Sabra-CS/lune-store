@@ -15,10 +15,17 @@ Bilingual (English/Arabic RTL) e-commerce site for **Lune (Lunar Allure)**, a Jo
 
 ```bash
 npm run dev          # dev server (localhost:3000)
-npm run build        # production build + type check
-npx drizzle-kit push # apply src/lib/db/schema.ts to Neon (needs DATABASE_URL in env)
-vercel deploy --prod # deploy (project: lune-store, team: mo-cd60)
+npm run build        # committed migrations when DB is configured, then Next build
+npm run lint         # ESLint
+npm run typecheck    # TypeScript (run after build/type generation)
+npm run test         # cart, copy, media, email and pricing regressions
+npm run test:e2e     # local production server + Playwright (install Chromium first)
+npm run db:generate  # generate a reviewed, committed Drizzle migration
+npm run db:migrate   # apply committed migrations to the configured database
+npm run cf:build     # local OpenNext compatibility bundle; does not deploy
 ```
+
+Production uses committed migrations. Do not use `drizzle-kit push` against production; see `docs/DATABASE_MIGRATIONS.md`. The Cloudflare runtime/cache gates remain open; see `docs/CONTINUATION_2026-09-21.md`.
 
 ## Architecture
 
@@ -27,8 +34,10 @@ vercel deploy --prod # deploy (project: lune-store, team: mo-cd60)
 - **Pages**: `src/app/[locale]/` → home, `shop`, `product/[slug]`, `checkout`, `confirmation`. `src/app/admin/` is its own root layout (English-only, `robots: noindex`).
 - **Cart**: React context + localStorage (`src/components/cart/cart-context.tsx`), drawer via shadcn Sheet (side flips for RTL).
 - **Orders**: `src/lib/orders.ts` — Neon Postgres via Drizzle when `DATABASE_URL` is set, else `.orders.dev.json` local fallback (gitignored). Checkout server action (`src/app/[locale]/checkout/actions.ts`) re-prices everything server-side; never trust client totals.
-- **Receipt email**: `src/lib/email/receipt.ts` — bilingual branded HTML via Resend. Without `RESEND_API_KEY` it logs instead of sending, and email failure must never fail the order.
+- **Receipt email**: `src/lib/email/receipt.ts` — escaped bilingual HTML via Resend after the order response. Email is optional; no recipient or no `RESEND_API_KEY` means no send. Email failure must never fail the order or restore stock.
 - **Admin**: `/admin`, cookie gate hashed from `ADMIN_PASSWORD` (`src/lib/admin-auth.ts`).
+- **Owner-supplied media/copy**: `src/lib/product-media.ts` maps exact legacy paths to the supplied set photographs. `src/data/approved-copy.ts` upgrades untouched Apollo/Orion descriptions. Both preserve custom admin edits.
+- **Checkout**: validates unique product slugs and compares `expectedTotal` with a freshly calculated server total. The client guards double-clicks; durable server idempotency and transaction hardening from the audit are still outstanding.
 
 ## Design system
 
@@ -50,8 +59,9 @@ vercel deploy --prod # deploy (project: lune-store, team: mo-cd60)
 |---|---|
 | `ADMIN_PASSWORD` | `/admin` login (set locally and in Vercel prod/preview) |
 | `DATABASE_URL` | Neon Postgres (provisioned via Vercel Marketplace integration) |
-| `RESEND_API_KEY` | Receipt emails — currently NOT set, so emails are log-only |
+| `RESEND_API_KEY` | Receipt emails — omitted locally, so sending is skipped |
 | `EMAIL_FROM` | Sender address once a domain is verified in Resend |
+| `LUNE_DEPLOYMENT` | Set to `cloudflare` by Wrangler; forbids JSON fallback without `DATABASE_URL` |
 
 ## Deployment notes
 

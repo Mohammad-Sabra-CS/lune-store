@@ -2,7 +2,12 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Playfair_Display, Jost, Amiri, IBM_Plex_Sans_Arabic } from "next/font/google";
+import {
+  Playfair_Display,
+  Jost,
+  Amiri,
+  IBM_Plex_Sans_Arabic,
+} from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { getStoreProducts } from "@/lib/products";
 import { ProductsProvider } from "@/components/product/products-context";
@@ -30,12 +35,14 @@ const amiri = Amiri({
   weight: ["400", "700"],
   subsets: ["arabic"],
   variable: "--font-amiri",
+  preload: false,
 });
 
 const plexArabic = IBM_Plex_Sans_Arabic({
   weight: ["300", "400", "500", "600"],
   subsets: ["arabic"],
   variable: "--font-plex-arabic",
+  preload: false,
 });
 
 export function generateStaticParams() {
@@ -77,6 +84,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const storeProducts = await getStoreProducts();
+  const t = await getTranslations("common");
 
   return (
     <html
@@ -93,15 +101,20 @@ export default async function LocaleLayout({
       <body className="min-h-screen antialiased">
         <NextIntlClientProvider>
           <MotionProvider>
-          <ProductsProvider products={storeProducts}>
-          <CartProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-            <CartDrawer />
-            <FeedbackWidget />
-          </CartProvider>
-          </ProductsProvider>
+            <ProductsProvider products={storeProducts}>
+              <CartProvider>
+                <a className="skip-link" href="#main-content">
+                  {t("skipToContent")}
+                </a>
+                <Header />
+                <main id="main-content" tabIndex={-1}>
+                  {children}
+                </main>
+                <Footer />
+                <CartDrawer />
+                <FeedbackWidget />
+              </CartProvider>
+            </ProductsProvider>
           </MotionProvider>
         </NextIntlClientProvider>
       </body>

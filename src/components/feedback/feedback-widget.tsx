@@ -28,6 +28,7 @@ export const OPEN_FEEDBACK_EVENT = "lune:open-feedback";
  *  sheet. Rendered site-wide from the locale layout. */
 export function FeedbackWidget() {
   const t = useTranslations("feedback");
+  const tCommon = useTranslations("common");
   const locale = useLocale() as Locale;
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
@@ -86,10 +87,11 @@ export function FeedbackWidget() {
         {t("tab")}
       </SheetTrigger>
       <SheetContent
+        closeLabel={tCommon("close")}
         side={locale === "ar" ? "right" : "left"}
         className="flex w-full flex-col gap-0 bg-ivory p-0 sm:max-w-md"
       >
-        <SheetHeader className="border-b border-night/10 px-6 py-5 pr-12">
+        <SheetHeader className="border-b border-night/10 px-6 py-5 pe-16">
           <SheetTitle className="font-display text-xl tracking-[0.08em] uppercase text-night">
             {t("title")}
           </SheetTitle>

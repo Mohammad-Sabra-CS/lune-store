@@ -49,3 +49,11 @@ next-env.d.ts
 
 # graphify knowledge graph output
 /graphify-out/
+
+# Local compatibility builds and test output
+.open-next/
+.wrangler/
+.cloudflare-dry-run/
+.dev.vars*
+playwright-report/
+test-results/

@@ -3,7 +3,8 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { EASE, RevealItem } from "@/components/motion/primitives";
 
 const STARS = [
@@ -87,11 +88,13 @@ export function ConfirmationReveal({ order }: { order?: string }) {
       <WaxingMoon />
       <RevealItem>
         <h1 className="font-display text-3xl tracking-wide sm:text-4xl">
-          {t("title")}
+          {t(order ? "title" : "invalidTitle")}
         </h1>
       </RevealItem>
       <RevealItem>
-        <p className="max-w-sm leading-relaxed text-moon/70">{t("subtitle")}</p>
+        <p className="max-w-sm leading-relaxed text-moon/70">
+          {t(order ? "subtitle" : "invalidSubtitle")}
+        </p>
       </RevealItem>
       {order && (
         <RevealItem>
@@ -104,16 +107,18 @@ export function ConfirmationReveal({ order }: { order?: string }) {
         </RevealItem>
       )}
       <RevealItem>
-        <p className="text-sm text-moon/60">{t("emailNote")}</p>
+        {order && <p className="text-sm text-moon/60">{t("emailNote")}</p>}
       </RevealItem>
       <RevealItem>
-        <Button
-          render={<Link href="/" />}
-          variant="outline"
-          className="mt-4 rounded-none border-gold bg-transparent px-10 py-6 text-xs tracking-[0.3em] uppercase text-gold transition-colors hover:bg-gold hover:text-night"
+        <Link
+          href="/"
+          className={cn(
+            buttonVariants({ variant: "outline" }),
+            "mt-4 rounded-none border-gold bg-transparent px-10 py-6 text-xs tracking-[0.3em] uppercase text-gold transition-colors hover:bg-gold hover:text-night",
+          )}
         >
           {t("backHome")}
-        </Button>
+        </Link>
       </RevealItem>
     </motion.div>
   );

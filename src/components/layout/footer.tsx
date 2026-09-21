@@ -30,12 +30,18 @@ export function Footer() {
               <p className="eyebrow text-gold">{t("explore")}</p>
               <ul className="space-y-2 text-sm text-moon/70">
                 <li>
-                  <Link href="/" className="transition-colors hover:text-gold-bright">
+                  <Link
+                    href="/"
+                    className="transition-colors hover:text-gold-bright"
+                  >
                     {tNav("home")}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/shop" className="transition-colors hover:text-gold-bright">
+                  <Link
+                    href="/shop"
+                    className="transition-colors hover:text-gold-bright"
+                  >
                     {tNav("shop")}
                   </Link>
                 </li>
@@ -44,15 +50,15 @@ export function Footer() {
             <div className="space-y-3">
               <p className="eyebrow text-gold">{t("contact")}</p>
               <ul className="space-y-2 text-sm text-moon/70">
-                <li dir="ltr">Amman, Jordan</li>
+                <li>{t("location")}</li>
                 <li>
                   <a
-                    href="https://www.instagram.com/lune_perfume.jo?igsh=MTdocmNkOHJ4c21hcw=="
+                    href="https://www.instagram.com/lune_perfume.jo/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="transition-colors hover:text-gold-bright"
                   >
-                    Instagram
+                    {t("instagram")}
                   </a>
                 </li>
               </ul>
@@ -61,7 +67,8 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-moon/10 pt-6 text-center text-xs tracking-wide text-moon/60">
-          © {new Date().getFullYear()} Lune — {tCommon("tagline")}. {t("rights")}
+          © {new Date().getFullYear()} Lune — {tCommon("tagline")}.{" "}
+          {t("rights")}
         </div>
       </div>
     </footer>
