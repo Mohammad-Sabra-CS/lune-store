@@ -49,6 +49,7 @@ function RowGlyph({ phase }: { phase: MoonPhase }) {
 export function MobileMenu() {
   const t = useTranslations("nav");
   const tFeedback = useTranslations("feedback");
+  const tCommon = useTranslations("common");
   const locale = useLocale() as Locale;
   const [open, setOpen] = useState(false);
 
@@ -61,6 +62,7 @@ export function MobileMenu() {
         <Menu className="h-5 w-5" />
       </SheetTrigger>
       <SheetContent
+        closeLabel={tCommon("close")}
         side={locale === "ar" ? "right" : "left"}
         showCloseButton={false}
         className="max-w-sm overflow-hidden border-e border-gold/25 bg-night p-0 text-moon shadow-2xl shadow-night/60 data-[side=left]:w-[85%] data-[side=right]:w-[85%]"
@@ -86,7 +88,11 @@ export function MobileMenu() {
 
           <nav className="flex flex-col divide-y divide-moon/10">
             <RevealItem>
-              <Link href="/" className={rowClass} onClick={() => setOpen(false)}>
+              <Link
+                href="/"
+                className={rowClass}
+                onClick={() => setOpen(false)}
+              >
                 <RowGlyph phase="crescent" />
                 <RowLabel>{t("home")}</RowLabel>
               </Link>

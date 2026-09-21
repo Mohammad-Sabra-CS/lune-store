@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ShopGrid } from "@/components/product/shop-grid";
@@ -39,7 +40,9 @@ export default async function ShopPage({
             <p className="text-muted-foreground">{t("subtitle")}</p>
           </RevealItem>
         </HeroReveal>
-        <ShopGrid />
+        <Suspense>
+          <ShopGrid />
+        </Suspense>
       </div>
     </div>
   );

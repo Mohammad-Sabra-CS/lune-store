@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { MAX_QTY_PER_ITEM } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/cart-context";
 import { useProducts } from "@/components/product/products-context";
@@ -11,7 +13,8 @@ import { EASE } from "@/components/motion/primitives";
 
 export function AddToCartButton({ slug }: { slug: string }) {
   const t = useTranslations("common");
-  const { addItem } = useCart();
+  const { addItem, openCart, items } = useCart();
+  const [hasAdded, setHasAdded] = useState(false);
   const { getProduct } = useProducts();
   const [added, setAdded] = useState(false);
   const reduce = useReducedMotion();
@@ -45,12 +48,17 @@ export function AddToCartButton({ slug }: { slug: string }) {
       className="w-full sm:w-auto"
     >
       <Button
+        disabled={
+          (items.find((i) => i.slug === slug)?.qty ?? 0) >=
+          Math.min(product.stock, MAX_QTY_PER_ITEM)
+        }
         size="lg"
         className="w-full rounded-none bg-gold py-7 text-sm tracking-[0.3em] uppercase text-night transition-colors duration-300 hover:bg-gold-bright sm:w-auto sm:px-14"
         onClick={() => {
           if (added) return;
           addItem(slug);
           setAdded(true);
+          setHasAdded(true);
           // No auto-open: the header badge confirms the add; the customer
           // opens the cart when they're ready to check out.
           setTimeout(() => setAdded(false), 1400);
@@ -58,7 +66,11 @@ export function AddToCartButton({ slug }: { slug: string }) {
       >
         <AnimatePresence mode="wait" initial={false}>
           {added ? (
-            <motion.span key="added" className="flex items-center gap-2" {...swap}>
+            <motion.span
+              key="added"
+              className="flex items-center gap-2"
+              {...swap}
+            >
               <svg
                 viewBox="0 0 24 24"
                 className="h-4 w-4"
@@ -85,6 +97,23 @@ export function AddToCartButton({ slug }: { slug: string }) {
           )}
         </AnimatePresence>
       </Button>
+      {hasAdded && (
+        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          <button
+            type="button"
+            onClick={openCart}
+            className="min-h-11 text-gold-deep underline underline-offset-4"
+          >
+            {t("viewCart")}
+          </button>
+          <Link
+            href="/shop"
+            className="inline-flex min-h-11 items-center text-night/70 underline underline-offset-4"
+          >
+            {t("continueShopping")}
+          </Link>
+        </div>
+      )}
     </motion.div>
   );
 }

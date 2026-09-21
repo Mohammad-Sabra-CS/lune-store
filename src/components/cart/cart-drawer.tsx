@@ -10,11 +10,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useCart } from "@/components/cart/cart-context";
 import { CartEmpty } from "@/components/cart/cart-empty";
 import { CartTotals } from "@/components/cart/cart-totals";
 import { useProducts } from "@/components/product/products-context";
+import { MAX_QTY_PER_ITEM } from "@/lib/constants";
 import { effectivePrice } from "@/lib/pricing";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -36,10 +38,11 @@ export function CartDrawer() {
       {/* The panel itself keeps Base UI's CSS slide transitions — Motion only
           animates the contents inside. */}
       <SheetContent
+        closeLabel={tCommon("close")}
         side={locale === "ar" ? "right" : "left"}
         className="flex w-full flex-col gap-0 bg-ivory p-0 sm:max-w-md"
       >
-        <SheetHeader className="border-b border-night/10 px-6 py-5">
+        <SheetHeader className="border-b border-night/10 px-6 py-5 pe-16">
           <SheetTitle className="font-display text-xl tracking-[0.08em] uppercase text-night">
             {t("title")}
           </SheetTitle>
@@ -91,8 +94,10 @@ export function CartDrawer() {
                             type="button"
                             whileTap={{ scale: 0.8 }}
                             onClick={() => cart.removeItem(item.slug)}
-                            aria-label={t("remove")}
-                            className="-m-2 shrink-0 p-2 text-night/50 transition-colors hover:text-wine"
+                            aria-label={t("removeProduct", {
+                              name: product.name,
+                            })}
+                            className="-m-2 flex h-11 w-11 shrink-0 items-center justify-center text-night/70 transition-colors hover:text-wine"
                           >
                             <X className="h-4 w-4" />
                           </motion.button>
@@ -105,8 +110,11 @@ export function CartDrawer() {
                             <motion.button
                               type="button"
                               whileTap={{ scale: 0.85 }}
-                              onClick={() => cart.setQty(item.slug, item.qty - 1)}
-                              className="flex h-10 w-10 items-center justify-center text-night/70 transition-colors hover:bg-night/5 sm:h-8 sm:w-8"
+                              aria-label={t("decrease", { name: product.name })}
+                              onClick={() =>
+                                cart.setQty(item.slug, item.qty - 1)
+                              }
+                              className="flex h-11 w-11 items-center justify-center text-night/70 transition-colors hover:bg-night/5 disabled:opacity-40"
                             >
                               <Minus className="h-3.5 w-3.5" />
                             </motion.button>
@@ -127,8 +135,15 @@ export function CartDrawer() {
                             <motion.button
                               type="button"
                               whileTap={{ scale: 0.85 }}
-                              onClick={() => cart.setQty(item.slug, item.qty + 1)}
-                              className="flex h-10 w-10 items-center justify-center text-night/70 transition-colors hover:bg-night/5 sm:h-8 sm:w-8"
+                              aria-label={t("increase", { name: product.name })}
+                              disabled={
+                                item.qty >=
+                                Math.min(product.stock, MAX_QTY_PER_ITEM)
+                              }
+                              onClick={() =>
+                                cart.setQty(item.slug, item.qty + 1)
+                              }
+                              className="flex h-11 w-11 items-center justify-center text-night/70 transition-colors hover:bg-night/5 disabled:opacity-40"
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </motion.button>
@@ -149,13 +164,16 @@ export function CartDrawer() {
 
             <div className="space-y-4 border-t border-night/10 bg-ivory-deep/60 px-6 py-5">
               <CartTotals />
-              <Button
-                render={<Link href="/checkout" />}
-                className="w-full rounded-none bg-gold py-6 tracking-[0.25em] uppercase text-night hover:bg-gold-bright"
+              <Link
+                href="/checkout"
+                className={cn(
+                  buttonVariants(),
+                  "w-full rounded-none bg-gold py-6 tracking-[0.25em] uppercase text-night hover:bg-gold-bright",
+                )}
                 onClick={cart.closeCart}
               >
                 {t("checkout")}
-              </Button>
+              </Link>
             </div>
           </>
         )}

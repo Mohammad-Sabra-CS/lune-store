@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import type { Audience } from "@/data/products";
@@ -14,7 +14,20 @@ type Filter = "all" | Audience;
 export function ShopGrid() {
   const t = useTranslations("shop");
   const { products } = useProducts();
-  const [filter, setFilter] = useState<Filter>("all");
+  const searchParams = useSearchParams();
+  const audience = searchParams.get("audience");
+  const filter: Filter =
+    audience === "men" || audience === "women" ? audience : "all";
+  function setFilter(value: Filter) {
+    const next = new URL(window.location.href);
+    if (value === "all") next.searchParams.delete("audience");
+    else next.searchParams.set("audience", value);
+    window.history.replaceState(
+      null,
+      "",
+      `${next.pathname}${next.search}${next.hash}`,
+    );
+  }
 
   const filtered =
     filter === "all" ? products : products.filter((p) => p.audience === filter);
@@ -28,8 +41,8 @@ export function ShopGrid() {
   return (
     <>
       <div
-        className="mb-12 flex justify-center gap-2"
-        role="tablist"
+        className="mb-12 flex flex-wrap justify-center gap-2"
+        role="group"
         aria-label={t("title")}
       >
         {options.map((option) => {
@@ -37,11 +50,11 @@ export function ShopGrid() {
           return (
             <button
               key={option.value}
-              role="tab"
-              aria-selected={active}
+              type="button"
+              aria-pressed={active}
               onClick={() => setFilter(option.value)}
               className={cn(
-                "relative border px-6 py-2 text-xs uppercase tracking-[0.2em] transition-colors duration-300",
+                "relative min-h-11 border px-6 py-2 text-xs uppercase tracking-[0.2em] transition-colors duration-300",
                 active
                   ? "border-gold text-night"
                   : "border-night/20 text-night/60 hover:border-gold-deep hover:text-gold-deep",

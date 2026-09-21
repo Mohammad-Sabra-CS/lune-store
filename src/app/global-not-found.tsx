@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -51,7 +52,7 @@ export default function GlobalNotFound() {
         <p dir="rtl" style={{ fontSize: "1.25rem", margin: 0 }}>
           الصفحة غير موجودة
         </p>
-        <a
+        <Link
           href="/"
           style={{
             marginTop: "0.5rem",
@@ -65,7 +66,7 @@ export default function GlobalNotFound() {
           }}
         >
           Lune — Home · الرئيسية
-        </a>
+        </Link>
       </body>
     </html>
   );

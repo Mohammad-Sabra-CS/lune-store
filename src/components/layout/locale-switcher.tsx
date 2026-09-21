@@ -14,10 +14,16 @@ export function LocaleSwitcher({ className }: { className?: string }) {
 
   return (
     <button
+      lang={other}
       type="button"
-      onClick={() => router.replace(pathname, { locale: other })}
+      onClick={() =>
+        router.replace(
+          `${pathname}${window.location.search}${window.location.hash}`,
+          { locale: other },
+        )
+      }
       className={cn(
-        "flex h-10 items-center rounded-full px-3 text-sm tracking-wide text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright",
+        "flex h-11 items-center rounded-full px-3 text-sm tracking-wide text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright",
         other === "ar" && "font-medium",
         className,
       )}

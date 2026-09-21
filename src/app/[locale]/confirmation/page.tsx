@@ -10,7 +10,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "confirmation" });
-  return { title: t("title") };
+  return { title: t("title"), robots: { index: false, follow: false } };
 }
 
 export default async function ConfirmationPage({
@@ -27,7 +27,13 @@ export default async function ConfirmationPage({
   return (
     <div className="relative isolate overflow-hidden bg-night text-moon">
       <AuroraBackground intensity="hero" />
-      <ConfirmationReveal order={order} />
+      <ConfirmationReveal
+        order={
+          typeof order === "string" && /^L-[A-Z0-9]{6,12}$/.test(order)
+            ? order
+            : undefined
+        }
+      />
     </div>
   );
 }

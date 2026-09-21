@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { ShoppingBag } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useCart } from "@/components/cart/cart-context";
 import { LogoMark, LogoWordmark } from "@/components/brand/logo";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 export function Header() {
   const t = useTranslations("nav");
   const { count, openCart } = useCart();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,9 +27,9 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 text-moon transition-all duration-500",
-        scrolled
-          ? "bg-night/85 shadow-lg shadow-night/30 backdrop-blur-md"
+        "fixed inset-x-0 top-0 z-50 text-moon transition-shadow duration-300",
+        scrolled || pathname !== "/"
+          ? "bg-night shadow-lg shadow-night/30"
           : "bg-gradient-to-b from-night/70 to-transparent",
       )}
     >
@@ -40,8 +41,8 @@ export function Header() {
           <button
             type="button"
             onClick={openCart}
-            aria-label={t("openCart")}
-            className="relative flex h-10 w-10 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright sm:hidden"
+            aria-label={t("openCart", { count })}
+            className="relative flex h-11 w-11 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright sm:hidden"
           >
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
@@ -78,6 +79,12 @@ export function Header() {
           >
             {t("shop")}
           </Link>
+          <Link
+            href="/#story"
+            className="text-moon/80 transition-colors hover:text-gold-bright"
+          >
+            {t("about")}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -85,8 +92,8 @@ export function Header() {
           <button
             type="button"
             onClick={openCart}
-            aria-label={t("openCart")}
-            className="relative hidden h-10 w-10 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright sm:flex"
+            aria-label={t("openCart", { count })}
+            className="relative hidden h-11 w-11 items-center justify-center rounded-full text-moon/90 transition-colors hover:bg-moon/10 hover:text-gold-bright sm:flex"
           >
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (

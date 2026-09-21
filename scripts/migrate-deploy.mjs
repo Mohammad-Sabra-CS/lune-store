@@ -16,15 +16,21 @@ const requireDb = process.argv.includes("--require-db");
 const url = process.env.DATABASE_URL;
 
 if (!url) {
-  if (process.env.VERCEL || requireDb) {
+  if (
+    process.env.VERCEL ||
+    process.env.CF_PAGES ||
+    process.env.WORKERS_CI ||
+    process.env.LUNE_DEPLOYMENT === "cloudflare" ||
+    requireDb
+  ) {
     console.error(
-      "[migrate] FATAL: DATABASE_URL is not set. Deployed environments must always migrate; refusing to continue."
+      "[migrate] FATAL: DATABASE_URL is not set. Deployed environments must always migrate; refusing to continue.",
     );
     process.exit(1);
   }
   console.warn(
     "[migrate] DATABASE_URL not set — skipping migrations for this local build. " +
-      "The dev JSON fallback stores are unaffected. To migrate a real database, run `npm run db:migrate` with DATABASE_URL exported."
+      "The dev JSON fallback stores are unaffected. To migrate a real database, run `npm run db:migrate` with DATABASE_URL exported.",
   );
   process.exit(0);
 }
@@ -36,8 +42,13 @@ const { migrate } = require("drizzle-orm/neon-http/migrator");
 try {
   const db = drizzle(neon(url));
   await migrate(db, { migrationsFolder: "./drizzle" });
-  console.log("[migrate] OK — all pending migrations applied (journal: drizzle.__drizzle_migrations).");
+  console.log(
+    "[migrate] OK — all pending migrations applied (journal: drizzle.__drizzle_migrations).",
+  );
 } catch (err) {
-  console.error("[migrate] FATAL: migration failed —", err instanceof Error ? err.message : err);
+  console.error(
+    "[migrate] FATAL: migration failed —",
+    err instanceof Error ? err.message : err,
+  );
   process.exit(1);
 }

@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: StoreProduct }) {
           src={product.image}
           alt={product.name}
           fill
-          sizes="(max-width: 640px) 50vw, 25vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
           className={cn(
             "object-cover transition-transform duration-700 ease-out group-hover:scale-105",
             soldOut && "opacity-60 grayscale",
@@ -51,24 +51,33 @@ export function ProductCard({ product }: { product: StoreProduct }) {
               : "border-navy-lune/30 bg-navy-lune/[0.06] text-navy-lune",
           )}
         >
-          <MoonPhaseGlyph phase={product.phase} className="h-4 w-4 text-current" />
+          <MoonPhaseGlyph
+            phase={product.phase}
+            className="h-4 w-4 text-current"
+          />
           {tCommon(product.audience)}
         </span>
-        <h3 className="font-display text-xl uppercase tracking-[0.08em] text-night">
+        <h3
+          lang="en"
+          className="font-display text-xl uppercase tracking-[0.08em] text-night"
+        >
           {product.name}
           <span className="block h-px max-w-0 bg-gold transition-all duration-500 group-hover:max-w-full" />
         </h3>
         <p className="font-display text-sm italic text-night/65">
           {product.poetry[locale]}
         </p>
+        <p className="pt-1 text-[11px] leading-5 text-night/65">
+          {tCommon("completeSet")}
+        </p>
         {soldOut ? (
-          <p className="pt-0.5 text-xs font-medium uppercase tracking-[0.2em] text-night/50">
+          <p className="pt-0.5 text-xs font-medium uppercase tracking-[0.2em] text-night/70">
             {tCommon("soldOut")}
           </p>
         ) : (
           <p className="pt-0.5 text-sm font-medium tabular-nums text-night">
             {onSale && (
-              <s className="me-2 text-night/40">
+              <s className="me-2 text-night/65">
                 {basePrice} {tCommon("currency")}
               </s>
             )}
