@@ -176,9 +176,6 @@
     "FAIL": 2
   },
   "failed_route_log_reason": "DATABASE_URL is not set in a deployed environment; refusing to use the local dev fallback.",
-  "database_accessed": false,
-  "remote_resources_created": false,
-  "deployment_performed": false,
   "typecheck": "PASS",
   "changed_code_eslint": "PASS",
   "repository_eslint": {
@@ -186,5 +183,14 @@
     "error_count": 8,
     "unchanged_file_count": 5
   },
-  "windows_wsl_tested": false
+  "windows_wsl_tested": false,
+  "local_verification_database_accessed": false,
+  "cloudflare_remote_resources_created": false,
+  "cloudflare_deployment_performed": false,
+  "existing_vercel_integration": {
+    "initial_branch_commit": "bc50886ec568875be1eefb73e440aa3c127f7e23",
+    "preview_triggered_by_initial_push": true,
+    "remote_database_access_audited": false,
+    "follow_up_config_disables_branch_deployments": true
+  }
 }
