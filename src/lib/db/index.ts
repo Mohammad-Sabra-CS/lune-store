@@ -5,8 +5,13 @@ import * as schema from "./schema";
 export function hasDatabase(): boolean {
   if (process.env.DATABASE_URL) return true;
   // Deployed environments must never silently fall back to the local JSON dev
-  // stores; a missing DATABASE_URL on Vercel is a configuration error.
-  if (process.env.VERCEL) {
+  // stores; a missing DATABASE_URL on either host is a configuration error.
+  if (
+    process.env.VERCEL ||
+    process.env.CF_PAGES ||
+    process.env.WORKERS_CI ||
+    process.env.LUNE_DEPLOYMENT === "cloudflare"
+  ) {
     throw new Error(
       "DATABASE_URL is not set in a deployed environment; refusing to use the local dev fallback."
     );

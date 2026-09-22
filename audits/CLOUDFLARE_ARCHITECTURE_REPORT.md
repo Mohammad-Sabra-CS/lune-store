@@ -1,5 +1,9 @@
 # LUNE — Cloudflare Architecture & Deployment Preparation Report
 
+> Current implementation evidence: [CF-0 results, 22 September 2026](CF0_REPORT_2026-09-22.md).
+> That report supersedes this historical report's unmeasured bundle-size limits
+> and zero-Worker-invocation assumptions. CF-0 remains partial; no cutover occurred.
+
 Date: 2026-08-28 · Phase: architecture / compatibility / deployment preparation only. **Nothing was deployed, no DNS changed, no Cloudflare resources created, no packages installed, no production data touched.** Facts verified against the repository at commit `18c4c20` + WP0 addendum working tree, against read-only production introspection (2026-08-28, WP0 report), and against current (August 2026) Cloudflare/OpenNext/vinext documentation and issue trackers. Audit sources: `MASTER_AUDIT.md` (consolidating ARCH/SEC/PERF/SCALE/QA/RESP/UX/DESIGN/DATA/RT), `docs/DATABASE_MIGRATIONS.md`, `WP0_REPORT.md`. (`DATABASE_AUDIT.md` and `RED_TEAM_AUDIT.md` do not exist under those names; their content is `DATA_MODEL_REPORT.md` and `RED_TEAM_REPORT.md`, consolidated in the master audit. No `CLOUDFLARE_DEPLOYMENT_AUDIT.md` existed before this report.)
 
 ---

@@ -1,0 +1,190 @@
+{
+  "date": "2026-09-22",
+  "base_commit": "2c481d9d6006cf538696abe03cf7ad184673c745",
+  "branch": "migration/cloudflare-opennext",
+  "environment": {
+    "os": "Linux",
+    "arch": "x86_64",
+    "node": "24.19.0",
+    "npm": "11.9.0"
+  },
+  "versions": {
+    "next": "16.3.3",
+    "opennext_cloudflare": "1.20.6",
+    "wrangler": "4.135.0"
+  },
+  "overall": "PARTIAL",
+  "builds": [
+    {
+      "build_id": "ZgD58Da9-SWCh8Ghg2wqo",
+      "uncompressed_kib": 14398.69,
+      "gzip_kib": 3281.36,
+      "dry_run_completed": true
+    },
+    {
+      "build_id": "BIDwVB778bZeURM8mS8gK",
+      "uncompressed_kib": 14398.69,
+      "gzip_kib": 3281.37,
+      "dry_run_completed": true
+    }
+  ],
+  "same_prerendered_routes": true,
+  "prerendered_routes": [
+    "/_global-error",
+    "/_not-found",
+    "/ar",
+    "/ar/checkout",
+    "/ar/product/apollo",
+    "/ar/product/aurora",
+    "/ar/product/elysia",
+    "/ar/product/orion",
+    "/ar/shop",
+    "/en",
+    "/en/checkout",
+    "/en/product/apollo",
+    "/en/product/aurora",
+    "/en/product/elysia",
+    "/en/product/orion",
+    "/en/shop",
+    "/icon.png"
+  ],
+  "unchanged_lockfile": true,
+  "smoke": {
+    "runtime": "local workerd; OpenNext populateCache local + wrangler dev --local",
+    "node": "v24.19.0",
+    "buildId": "BIDwVB778bZeURM8mS8gK",
+    "database": "not configured; fixture pages only",
+    "results": [
+      {
+        "name": "G1 default locale",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 Arabic language detection",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 locale cookie and query preserved",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 unprefixed shop",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en/shop?audience=women",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en/checkout",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en/product/apollo",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en/product/orion",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en/product/elysia",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en/product/aurora",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /en/shop RSC",
+        "status": "PASS"
+      },
+      {
+        "name": "G3 /en/missing-page",
+        "status": "FAIL",
+        "detail": "Expected values to be strictly equal:\n\n500 !== 404\n"
+      },
+      {
+        "name": "G1 /ar",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /ar/shop?audience=women",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /ar/checkout",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /ar/product/apollo",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /ar/product/orion",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /ar/product/elysia",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /ar/product/aurora",
+        "status": "PASS"
+      },
+      {
+        "name": "G1 /ar/shop RSC",
+        "status": "PASS"
+      },
+      {
+        "name": "G3 /ar/missing-page",
+        "status": "FAIL",
+        "detail": "Expected values to be strictly equal:\n\n500 !== 404\n"
+      },
+      {
+        "name": "G1 admin excluded from locale redirects",
+        "status": "PASS"
+      },
+      {
+        "name": "G3 excluded route status /api/cf0-missing",
+        "status": "PASS"
+      },
+      {
+        "name": "G3 excluded route status /admin/cf0-missing-page",
+        "status": "PASS"
+      },
+      {
+        "name": "G3 global-not-found artifact compiled",
+        "status": "PASS"
+      },
+      {
+        "name": "G4 hashed asset served immutably",
+        "status": "PASS"
+      },
+      {
+        "name": "G4 local image binding",
+        "status": "PASS"
+      }
+    ]
+  },
+  "smoke_counts": {
+    "PASS": 26,
+    "FAIL": 2
+  },
+  "failed_route_log_reason": "DATABASE_URL is not set in a deployed environment; refusing to use the local dev fallback.",
+  "database_accessed": false,
+  "remote_resources_created": false,
+  "deployment_performed": false,
+  "typecheck": "PASS",
+  "changed_code_eslint": "PASS",
+  "repository_eslint": {
+    "status": "FAIL",
+    "error_count": 8,
+    "unchanged_file_count": 5
+  },
+  "windows_wsl_tested": false
+}
