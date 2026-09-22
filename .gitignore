@@ -49,3 +49,10 @@ next-env.d.ts
 
 # graphify knowledge graph output
 /graphify-out/
+
+# Cloudflare compatibility output and local secrets
+/.open-next/
+/.wrangler/
+/.cloudflare-dry-run/
+/.cf0-results/
+.dev.vars*
